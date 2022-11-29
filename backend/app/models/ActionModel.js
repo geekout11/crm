@@ -3,13 +3,13 @@ const Schema = mongoose.Schema
 
 const ActionsSchema = new Schema({
   date: {
-    type: Date, default: ''
+    type: String
   },
   phone: {
-    type: String, default: ''
+    type: String
   },
   textarea: {
-    type: String, default: ''
+    type: String
   }
   // actions: {
   //   type: Schema.Types.ObjectId,

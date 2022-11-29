@@ -24,38 +24,48 @@ module.exports = {
 
   create: (req, res, next) => {
 
-    let client = {}
-    let action = {}
+    // let client = {}
+    // let action = {}
 
-    ActionModel.findOne({ key: req.body }, function (err, actions) {
+    // ActionModel.findOne(req.body.actions, function (err, actions) {
 
-      client = new ClientModel({
-        name: req.body.name,
-        address: req.body.address,
-        nip: req.body.nip,
-        actions
-      })
+    const action = new ActionModel({
+      date: req.body.date,
+      phone: req.body.phone,
+      textarea: req.body.textarea
+    })
 
-      action = new ActionModel({
-        actions
-      })
+    const client = new ClientModel({
+      name: req.body.name,
+      address: req.body.address,
+      nip: req.body.nip,
+      actions: [action]
+    })
 
-      // console.log(req.body)
-      // console.log(actions)
+    // console.log(req.body.actions)
+    // console.log(client)
+    // console.log(req.body)
+    // console.log(actions)
+    action.save((err) => {
+      if (err) {
+        return res.status(500).json({
+          message: 'Error while creating Action',
+          error: err,
+        })
+      }
 
       client.save((err, event) => {
-        action.save((err) => {
-          if (err) {
-            return res.status(500).json({
-              message: 'Error while creating Event',
-              error: err,
-            })
-          }
+        if (err) {
+          return res.status(500).json({
+            message: 'Error while creating Client',
+            error: err,
+          })
+        }
 
-          return res.status(201).json(event) // http 201 == Created
-        })
+        return res.status(201).json(event) // http 201 == Created
       })
     })
+    // })
 
   },
 
@@ -81,32 +91,53 @@ module.exports = {
 
   update: (req, res, next) => {
 
-    UserModel.findOne({ key: req.body.course.key }, function (err, course) {
-      ActionModel.findOne({ key: req.body.city.key }, function (err, city) {
-        ClientModel.updateOne({ _id: req.params.id }, { course, city }, (err, event) => {
+    ClientModel.updateOne(req.body, (err, event) => {
 
+      // console.log(req.body)
+      // console.log(course)
+      // console.log(city)
+      // console.log(event)
 
-          // console.log(req.body)
-          // console.log(course)
-          // console.log(city)
-          // console.log(event)
+      if (err) {
+        res.status(500).json({
+          message: 'Error while updating Client',
+          error: err
+        })
+      } else {
+        res.status(200).json({
+          message: 'Client has been updated'
+        })
+      }
 
+      // console.log(course)
+
+    })
+  },
+
+  updateClientsActions: (req, res, next) => {
+
+    ClientModel.findByIdAndUpdate(req.params.id, req.body.actions, (err, event) => {
+      ActionModel.updateOne(req.body, (err, actions) => {
+
+        const action = new ActionModel({
+          date: req.body.date,
+          phone: req.body.phone,
+          textarea: req.body.textarea
+        })
+
+        // console.log(action)
+        // console.log(req.body)
+
+        action.updateOne((err) => {
           if (err) {
+            console.log(err)
             res.status(500).json({
-              message: 'Error while updating Event',
-              error: err
-            })
-          } else {
-            res.status(200).json({
-              message: 'Event has been updated'
+              message: 'Error while adding Action',
+              error: err,
             })
           }
-
-          // console.log(course)
-
         })
       })
     })
   }
-
 }

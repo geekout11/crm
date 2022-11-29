@@ -5,7 +5,7 @@ const actionController = require('../controllers/ActionController')
 const router = express.Router()
 
 module.exports = () => {
-  // GET /events
+  // GET /client
   router.get('/', clientController.index)
 
   // GET /client/all
@@ -14,13 +14,19 @@ module.exports = () => {
   // GET /user/all
   router.get('/user/all', userController.index)
 
-  // POST /events/add
+  // POST /user/signup
+  router.post('/user/signup', userController.create)
+
+  // POST /api/add
   router.post('/add', clientController.create)
 
-  // DELETE /events/delete/:id
+  // POST /api/addAction
+  router.put('/addAction/:id', clientController.updateClientsActions)
+
+  // DELETE /client/delete/:id
   router.delete('/delete/:id', clientController.delete)
 
-  // PUT /events/update/:id
+  // PUT /client/update/:id
   router.put('/update/:id', clientController.update)
 
   return router

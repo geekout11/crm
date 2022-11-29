@@ -7,7 +7,7 @@ module.exports = {
           .exec(function (err, result) {
             if (err) {
               return res.status(500).json({
-                message: 'Error while fetching Courses',
+                message: 'Error while fetching Actions',
                 error: err,
               })
             }
@@ -17,5 +17,6 @@ module.exports = {
             res.json(result);
           })
       },
+
 
 }

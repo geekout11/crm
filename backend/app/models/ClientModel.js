@@ -2,18 +2,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const ClientSchema = new Schema({
-  // name: {
-  //   type: String,
-  //   required: true,
-  // },
-  // course: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Course'
-  // },
-  // city: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Cities'
-  // },
   name: { type: String, required: true },
   address: {
     city: {
@@ -33,10 +21,11 @@ const ClientSchema = new Schema({
     }
   },
   nip: Number,
-  actions: {
+  
+  actions: [{
     type: Schema.Types.ObjectId,
-    ref: 'Client'
-  }
+    ref: 'Actions'
+  }]
 })
 
 module.exports = mongoose.model('Client', ClientSchema)
