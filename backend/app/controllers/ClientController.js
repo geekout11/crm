@@ -116,28 +116,40 @@ module.exports = {
 
   updateClientsActions: (req, res, next) => {
 
-    ClientModel.findByIdAndUpdate(req.params.id, req.body.actions, (err, event) => {
-      ActionModel.updateOne(req.body, (err, actions) => {
+    ActionModel.updateOne(req.body, (err, actions) => {
 
-        const action = new ActionModel({
-          date: req.body.date,
-          phone: req.body.phone,
-          textarea: req.body.textarea
-        })
+      const action = new ActionModel({
+        date: req.body.date,
+        phone: req.body.phone,
+        textarea: req.body.textarea
+      })
 
-        // console.log(action)
-        // console.log(req.body)
+      // console.log(action)
+      // console.log(req.body)
 
-        action.updateOne((err) => {
-          if (err) {
-            console.log(err)
-            res.status(500).json({
-              message: 'Error while adding Action',
-              error: err,
-            })
-          }
-        })
+      action.updateOne((err) => {
+        if (err) {
+          // return res.status(500).json({
+          //   message: 'Error while adding Action',
+          //   error: err,
+          // })
+        }
       })
     })
+
+    ClientModel.updateOne(req.body, (err, event) => {
+
+      if (err) {
+        res.status(500).json({
+          message: 'Error while updating Client',
+          error: err
+        })
+      } else {
+        res.status(200).json({
+          message: 'Client has been updated'
+        })
+      }
+    })
   }
+
 }
