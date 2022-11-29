@@ -8,7 +8,7 @@ module.exports = {
       .exec(function (err, result) {
         if (err) {
           return res.status(500).json({
-            message: 'Error while fetching Cities',
+            message: 'Error while fetching Users',
             error: err,
           })
         }
@@ -19,7 +19,7 @@ module.exports = {
       })
   },
 
-  create: (req, res, next) => {
+  signup: (req, res, next) => {
 
     let user = {}
 
@@ -33,7 +33,7 @@ module.exports = {
       user.save((err, event) => {
         if (err) {
           return res.status(500).json({
-            message: 'Error while creating Event',
+            message: 'Error while creating User',
             error: err,
           })
         }
@@ -44,11 +44,43 @@ module.exports = {
 
   },
 
-  login: (req, res, next) => {
+  login: (req, res) => {
+    //email and password
+    const email = req.body.email
+    const password = req.body.password
 
-    UserModel.findOne({ email: req.body.email }, function (err, user) {
+    //find user exist or not
+    UserModel.findOne({ email })
+      .then(user => {
+        //if user not exist than return status 400
+        if (!user) return res.status(400).json({ msg: "User not exist" })
 
-    })
+        //if user exist than compare password
+        //password comes from the user
+        //user.password comes from the database
+        bcrypt.compare(password, user.password, (err, data) => {
+
+          const token = user.generateAuthToken();
+          
+          //if error than throw error
+          if (err) throw err
+
+          //if both match than you can do anything
+          if (data) {
+            return res.status(200).json({
+              msg: "Login success",
+              jwt: token
+            })
+          } else {
+            return res.status(401).json({ msg: "Invalid credencial" })
+          }
+        })
+      })
+
   }
+
+  // signup: (req, res, next) => {
+
+  // }
 
 }

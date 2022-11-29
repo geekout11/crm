@@ -15,7 +15,10 @@ module.exports = () => {
   router.get('/user/all', userController.index)
 
   // POST /user/signup
-  router.post('/user/signup', userController.create)
+  router.post('/user/signup', userController.signup)
+
+  // POST /user/login
+  router.post('/user/login', userController.login)
 
   // POST /api/add
   router.post('/add', clientController.create)

@@ -74,24 +74,28 @@ module.exports = {
     // console.log(id)
 
     ClientModel.findByIdAndRemove(id, (err, event) => {
-      if (err) {
-        return res.status(500).json({
-          message: 'Error while creating Event',
-          error: err,
-        })
-      }
+      ActionModel.deleteOne((err, event) => {
 
-      return res.status(200).json({
-        id: id,
-        deleted: true
-      }) // http 200 = OK & entity decribing status
-      return res.status(204) // http 204 == No content ([No Content] if the action has been performed but the response does not include an entity.)  
+        if (err) {
+          console.log(err)
+          return res.status(500).json({
+            message: 'Error while deleting Event',
+            error: err,
+          })
+        }
+
+        return res.status(200).json({
+          id: id,
+          deleted: true
+        }) // http 200 = OK & entity decribing status
+        return res.status(204) // http 204 == No content ([No Content] if the action has been performed but the response does not include an entity.)  
+      })
     })
   },
 
   update: (req, res, next) => {
 
-    ClientModel.updateOne(req.body, (err, event) => {
+    ClientModel.updateOne(req.params.id, req.body, (err, event) => {
 
       // console.log(req.body)
       // console.log(course)
