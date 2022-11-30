@@ -21,6 +21,9 @@ module.exports = () => {
   router.post('/user/login', userController.login)
 
   // POST /api/add
+  router.post('/addClientAndAction', clientController.createClientAndAction)
+
+  // POST /api/add
   router.post('/add', clientController.create)
 
   // POST /api/addAction
