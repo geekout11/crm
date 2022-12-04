@@ -4,26 +4,26 @@ import { Link } from "react-router-dom";
 import "./style/AddClients.css"
 
 
-export default function AddClient() {
+function AddClient() {
     const [error, setError] = useState(null)
     const [name, setName] = useState('')
-    // const [address, setAddress] = useState({
-    //     // address: {
-    //     city: '',
-    //     street: ''
-    //     // }
-    // })
+    const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
     const [street, setStreet] = useState('')
-    const [apNumber, setApNumber] = useState('')
-    const [zipcode, setZipcode] = useState('')
+    // const [apartmentNumber, setApartmentNumber] = useState('')
+    // const [zipcode, setZipcode] = useState('')
     const [nip, setNip] = useState('')
 
     // console.log(address)
 
     const resetForm = () => {
         setName('')
-        setAddress('')
+        setAddress({
+            city: '',
+            street: '',
+            // apartmentNumber: '',
+            // zipcode: ''
+        })
         setNip('')
         setError([])
         // console.log('reset Form')
@@ -51,10 +51,10 @@ export default function AddClient() {
         const newEvent = {
             name: name,
             address: {
-                city: city,
-                street: street,
-                nr: apNumber,
-                zipcode: zipcode
+                city: address.city,
+                street: address.street,
+                // nr: apartmentNumber,
+                // zipcode: zipcode,
             },
             nip: nip,
         }
@@ -69,7 +69,7 @@ export default function AddClient() {
         // console.log(e)
 
 
-        axios.post('http://localhost:3005/api/add', { name, address: {}, nip })
+        axios.post('http://localhost:3005/api/add', { name, address, nip })
             .then((res) => {
                 console.log(res.data);
                 setError(<span>Dodałeś klienta</span>)
@@ -83,30 +83,30 @@ export default function AddClient() {
     const handleChangeCity = (e) => {
         // console.log('handleChangeAddress')
         setCity({
-            city: e.target.value
+            city: e.target.value,
         });
     }
 
     const handleChangeStreet = (e) => {
         // console.log('handleChangeAddress')
         setStreet({
-            street: e.target.value
+            street: e.target.value,
         });
     }
 
-    const handleChangeApNumber = (e) => {
-        // console.log('handleChangeAddress')
-        setApNumber({
-            apNumber: e.target.value
-        });
-    }
+    // const handleChangeapartmentNumber = (e) => {
+    //     // console.log('handleChangeAddress')
+    //     setApartmentNumber({
+    //         apartmentNumber: e.target.value,
+    //     });
+    // }
 
-    const handleChangeZipcode = (e) => {
-        // console.log('handleChangeAddress')
-        setZipcode({
-            zipcode: e.target.value
-        });
-    }
+    // const handleChangeZipcode = (e) => {
+    //     // console.log('handleChangeAddress')
+    //     setZipcode({
+    //         zipcode: e.target.value,
+    //     });
+    // }
 
     const handleChangeNip = (e) => {
         // console.log('handleChangeCity')
@@ -127,45 +127,45 @@ export default function AddClient() {
 
                 <input
                     type="text"
-                    value={city}
+                    value={city.city}
                     onChange={handleChangeCity}
-                    name="address"
                     placeholder="Podaj miasto">
                 </input>
 
                 <input
                     type="text"
-                    value={street}
+                    value={street.street}
                     onChange={handleChangeStreet}
+                    placeholder="Podaj ulice">
+                </input>
+
+                {/* <input
+                    type="text"
+                    value={apartmentNumber.apartmentNumber}
+                    onChange={handleChangeapartmentNumber}
                     name="address"
                     placeholder="Podaj ulice">
                 </input>
 
                 <input
                     type="text"
-                    value={apNumber}
-                    onChange={handleChangeApNumber}
-                    name="address"
-                    placeholder="Podaj ulice">
-                </input>
-
-                <input
-                    type="text"
-                    value={zipcode}
+                    value={zipcode.zipcode}
                     onChange={handleChangeZipcode}
                     name="address"
                     placeholder="Podaj ulice">
-                </input>
-
+                </input> */}
+{/* 
                 <input
                     value={nip}
                     type="text"
                     onChange={handleChangeNip}
                     name="nip"
                     placeholder="Podaj NIP">
-                </input>
+                </input> */}
                 <button className="btn-1" type="submit">Dodaj klienta</button>
             </form>
         </div>
     );
 };
+
+export default AddClient;

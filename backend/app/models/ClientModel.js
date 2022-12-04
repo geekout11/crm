@@ -12,7 +12,7 @@ const ClientSchema = new Schema({
       type: String
     },
 
-    nr: {
+    apartmentNumber: {
       type: String
     },
 
