@@ -10,3 +10,19 @@ form input {
     margin: 5px;
     width: 30%;
 }
+
+.errorsWrapper ul {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    margin: 10px;
+    list-style: none;
+}
+
+.errorsWrapper ul li {
+    margin: 2px;
+    color: red;
+    font-weight: bold;
+}

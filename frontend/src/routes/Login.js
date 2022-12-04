@@ -8,6 +8,32 @@ const Login = (props) => {
         email: '',
         password: ''
     })
+    const [errors, setErrors] = useState([])
+
+    const validateForm = (e) => {
+
+        let errorsValidate = []
+
+        if (email.trim() === '') {
+            errorsValidate.push('Wpisz email')
+        }
+
+        if (password.trim() === '') {
+            errorsValidate.push('Wpisz hasło')
+        } else if (password !== form.data) {
+            errorsValidate.push('Wpisz poprawne hasło')
+        }
+
+        if (errorsValidate.length > 0) {
+            setErrors(
+                errorsValidate.map((errorTxt, index) => {
+                    return <li key={index}>{errorTxt}</li>
+                })
+            )
+
+            return false
+        }
+    }
 
     const userSubmit = (e) => {
         e.preventDefault();
@@ -40,12 +66,15 @@ const Login = (props) => {
     return (
         <div>
             {props.user && <Navigate to='/home' />}
-            <form onSubmit={userSubmit}>
+            <form action='#' onSubmit={userSubmit}>
                 <h3>Logowanie</h3>
                 <input type='text' value={email} onChange={stateLogin} name='email' placeholder='Podaj login'></input>
                 <input type='password' value={password} name='password' onChange={stateLogin} placeholder='Podaj hasło'></input>
-                <button className='btn' type='submit'>Zaloguj</button>
+                <button className='btn' type='submit' onClick={validateForm}>Zaloguj</button>
             </form>
+            <div className='errorsWrapper'>
+                <ul className='errors'>{errors}</ul>
+            </div>
         </div>
     )
 };

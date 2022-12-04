@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import Home from './routes/Home';
 import Login from './routes/Login';
 import SignUp from './routes/SignUp';
+import AddClient from "./routes/AddClient";
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import './routes/style/App.css';
 import { useState } from 'react';
@@ -72,6 +73,7 @@ const App = () => {
           }
         />
         <Route path='signup' element={<SignUp />} />
+        <Route path="addclient" element={<AddClient />} />
       </Routes>
     </div>
   );

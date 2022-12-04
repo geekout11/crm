@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import './style/Client.css';
 
 const Client = (props) => {
@@ -112,6 +113,7 @@ const Client = (props) => {
                     {element}
                 </tbody>
             </table>
+            <Link className="btn" to="/AddClient">Dodaj</Link>
         </div>
     );
 };
