@@ -10,6 +10,10 @@ const ActionsSchema = new Schema({
   },
   textarea: {
     type: String
+  },
+  client: {
+    type: Schema.Types.ObjectId,
+    ref: 'Client'
   }
   // actions: {
   //   type: Schema.Types.ObjectId,

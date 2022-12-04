@@ -1,0 +1,31 @@
+.table {
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black;
+    margin-bottom: 10px;
+}
+
+th,
+td {
+    border: 1px solid black;
+    padding: 5px 5px;
+    font-weight: 500;
+}
+
+th,
+.text {
+    background: rgb(6, 44, 77);
+    color: white;
+}
+
+.clientAddress {
+    list-style: none;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}

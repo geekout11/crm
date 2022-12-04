@@ -6,12 +6,10 @@ module.exports = {
 
   index: (req, res, next) => {
     ClientModel.find()
-      .populate('user')
-      .populate('action')
       .exec(function (err, result) {
         if (err) {
           return res.status(500).json({
-            message: 'Error while fetching Events',
+            message: 'Error while fetching Clients',
             error: err,
           })
         }
@@ -24,15 +22,11 @@ module.exports = {
 
   createClientAndAction: (req, res, next) => {
 
-    // let client = {}
-    // let action = {}
-
-    // ActionModel.findOne(req.body.actions, function (err, actions) {
-
     const action = new ActionModel({
       date: req.body.date,
       phone: req.body.phone,
-      textarea: req.body.textarea
+      textarea: req.body.textarea,
+      client: null
     })
 
     const client = new ClientModel({
@@ -41,6 +35,8 @@ module.exports = {
       nip: req.body.nip,
       actions: [action]
     })
+
+    action.client = client
 
     // console.log(req.body.actions)
     // console.log(client)
@@ -65,7 +61,6 @@ module.exports = {
         return res.status(201).json(event) // http 201 == Created
       })
     })
-    // })
 
   },
 
@@ -107,28 +102,49 @@ module.exports = {
   delete: (req, res, next) => {
     const id = req.params.id
     // console.log(id)
+    ClientModel.findByIdAndRemove(id, (err, client) => {
+      ActionModel.deleteMany((err, action) => {
 
-    ActionModel.findByIdAndRemove(id, (err, event) => {
+        if (err) {
+          // console.log(err)
+          return res.status(500).json({
+            message: 'Error while deleting Client or Action',
+            error: err,
+          })
+        }
 
-      if (err) {
-        console.log(err)
-        return res.status(500).json({
-          message: 'Error while deleting Action',
-          error: err,
-        })
-      }
-
-      return res.status(200).json({
-        id: id,
-        deleted: true
-      }) // http 200 = OK & entity decribing status
-      return res.status(204) // http 204 == No content ([No Content] if the action has been performed but the response does not include an entity.)  
+        return res.status(200).json({
+          id: id,
+          deleted: true
+        }) // http 200 = OK & entity decribing status
+        return res.status(204) // http 204 == No content ([No Content] if the action has been performed but the response does not include an entity.)  
+      })
     })
+  },
+
+  deleteAction: (req, res, next) => {
+    const id = req.params.id
+    // console.log(id)
+    ActionModel.findByIdAndRemove(id, (err, action) => {
+        if (err) {
+          // console.log(err)
+          return res.status(500).json({
+            message: 'Error while deleting Action',
+            error: err,
+          })
+        }
+
+        return res.status(200).json({
+          id: id,
+          deleted: true
+        }) // http 200 = OK & entity decribing status
+        return res.status(204) // http 204 == No content ([No Content] if the action has been performed but the response does not include an entity.)  
+      })
   },
 
   update: (req, res, next) => {
 
-    ClientModel.updateOne(req.params.id, req.body, (err, event) => {
+    ClientModel.updateOne(req.params.id, req.body, (err, client) => {
 
       // console.log(req.body)
       // console.log(course)
@@ -156,7 +172,8 @@ module.exports = {
     const action = new ActionModel({
       date: req.body.date,
       phone: req.body.phone,
-      textarea: req.body.textarea
+      textarea: req.body.textarea,
+      client: req.params.id
     })
 
     // console.log(action)
@@ -186,36 +203,6 @@ module.exports = {
         }
       })
     })
-
-    // ActionModel.updateOne(req.body, (err, actions) => {
-
-
-    //   // console.log(action)
-    //   // console.log(req.body)
-
-    //   action.updateOne((err) => {
-    // if (err) {
-    //   // return res.status(500).json({
-    //   //   message: 'Error while adding Action',
-    //   //   error: err,
-    //   // })
-    // }
-    //   })
-    // })
-
-    // ClientModel.updateOne(req.body, (err, event) => {
-
-    //   if (err) {
-    //     res.status(500).json({
-    //       message: 'Error while updating Client',
-    //       error: err
-    //     })
-    //   } else {
-    // res.status(200).json({
-    //   message: 'Client has been updated'
-    // })
-    //   }
-    // })
   }
 
 }
