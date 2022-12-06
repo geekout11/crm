@@ -1,8 +1,14 @@
+a.btn {
+  padding-top: 1.6px;
+  padding-bottom: 4px;
+  width: 20%;
+}
+
 .btn {
   text-decoration: none;
   border: 1px solid black;
-  margin: 5px;
-  padding: 7px;
+  margin: 4px;
+  padding: 4px;
   background-color: white;
   font-size: 15px;
   color: black;

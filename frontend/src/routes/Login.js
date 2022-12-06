@@ -20,9 +20,13 @@ const Login = (props) => {
 
         if (password.trim() === '') {
             errorsValidate.push('Wpisz hasło')
-        } else if (password !== form.data) {
-            errorsValidate.push('Wpisz poprawne hasło')
+        } else if (email && password !== form) {
+            errorsValidate.push('Wpisz poprawny email i hasło')
+        } else if (password === form) {
+            errorsValidate.push('Zalogowano')
         }
+
+        // console.log(form)
 
         if (errorsValidate.length > 0) {
             setErrors(
@@ -54,7 +58,7 @@ const Login = (props) => {
     }
 
 
-    let stateLogin = (e) => {
+    const stateLogin = (e) => {
         setForm({
             ...form,
             [e.target.name]: e.target.value

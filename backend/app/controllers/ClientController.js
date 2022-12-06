@@ -6,6 +6,7 @@ module.exports = {
 
   index: (req, res, next) => {
     ClientModel.find()
+      .populate('actions')
       .exec(function (err, result) {
         if (err) {
           return res.status(500).json({
@@ -20,10 +21,29 @@ module.exports = {
       })
   },
 
+  fetchSingleClient: (req, res, next) => {
+    ClientModel
+      .findById(req.params.id, function (err, result) {
+        if (err) {
+          return res.status(500).json({
+            message: 'Error while fetching Client',
+            error: err,
+          })
+        }
+
+        // console.log(result)
+
+        res.json(result);
+      })
+      .populate('actions')
+  },
+
+
   createClientAndAction: (req, res, next) => {
 
     const action = new ActionModel({
-      date: req.body.date,
+      dateAdded: req.body.dateAdded,
+      visitDate: req.body.visitDate,
       phone: req.body.phone,
       textarea: req.body.textarea,
       client: null
@@ -126,25 +146,25 @@ module.exports = {
     const id = req.params.id
     // console.log(id)
     ActionModel.findByIdAndRemove(id, (err, action) => {
-        if (err) {
-          // console.log(err)
-          return res.status(500).json({
-            message: 'Error while deleting Action',
-            error: err,
-          })
-        }
+      if (err) {
+        // console.log(err)
+        return res.status(500).json({
+          message: 'Error while deleting Action',
+          error: err,
+        })
+      }
 
-        return res.status(200).json({
-          id: id,
-          deleted: true
-        }) // http 200 = OK & entity decribing status
-        return res.status(204) // http 204 == No content ([No Content] if the action has been performed but the response does not include an entity.)  
-      })
+      return res.status(200).json({
+        id: id,
+        deleted: true
+      }) // http 200 = OK & entity decribing status
+      return res.status(204) // http 204 == No content ([No Content] if the action has been performed but the response does not include an entity.)  
+    })
   },
 
   update: (req, res, next) => {
 
-    ClientModel.updateOne(req.params.id, req.body, (err, client) => {
+    ClientModel.findByIdAndUpdate(req.params.id, req.body, (err, client) => {
 
       // console.log(req.body)
       // console.log(course)
@@ -170,7 +190,8 @@ module.exports = {
   updateClientsActions: (req, res, next) => {
 
     const action = new ActionModel({
-      date: req.body.date,
+      dateAdded: req.body.dateAdded,
+      visitDate: req.body.visitDate,
       phone: req.body.phone,
       textarea: req.body.textarea,
       client: req.params.id

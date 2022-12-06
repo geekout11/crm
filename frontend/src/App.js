@@ -3,6 +3,8 @@ import Home from './routes/Home';
 import Login from './routes/Login';
 import SignUp from './routes/SignUp';
 import AddClient from "./routes/AddClient";
+import SingleCustommer from "./routes/SingleCustommer";
+import Actions from "./routes/Actions";
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import './routes/style/App.css';
 import { useState } from 'react';
@@ -48,6 +50,13 @@ const App = () => {
               </Link>
             </li>
           )}
+          {user && (
+            <li>
+              <Link className='ul-itm' to='/AddClient'>
+                Dodaj klienta
+              </Link>
+            </li>
+          )}
           {!user && (
             <li>
               <Link className='ul-itm' to='/signUp'>
@@ -74,6 +83,8 @@ const App = () => {
         />
         <Route path='signup' element={<SignUp />} />
         <Route path="addclient" element={<AddClient />} />
+        <Route path="custommer/:id" element={<SingleCustommer />} />
+        <Route path="actions/:id" element={<Actions />} />
       </Routes>
     </div>
   );

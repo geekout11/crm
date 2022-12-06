@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 
 const SignUp = () => {
-    
+
     const [error, setError] = useState(null);
     const [form, setForm] = useState({
         email: '',
@@ -31,7 +31,7 @@ const SignUp = () => {
 
     }
 
-    let StateSignUP = (e) => {
+    const StateSignUP = (e) => {
         setForm({
             ...form,
             [e.target.name]: e.target.value

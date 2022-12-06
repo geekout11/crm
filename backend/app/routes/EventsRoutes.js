@@ -6,7 +6,10 @@ const router = express.Router()
 
 module.exports = () => {
   // GET /client
-  router.get('/all/:id?', clientController.index)
+  router.get('/all/', clientController.index)
+
+  // GET /client
+  router.get('/fetchSingleClient/:id', clientController.fetchSingleClient)
 
   // GET /client/all
   router.get('/client/all', actionController.index)
@@ -32,11 +35,15 @@ module.exports = () => {
   // DELETE /client/delete/:id
   router.delete('/delete/:id', clientController.delete)
 
-    // DELETE /client/delete/:id
-    router.delete('/deleteAction/:id', clientController.deleteAction)
+  // DELETE /client/delete/:id
+  router.delete('/deleteAction/:id', clientController.deleteAction)
 
   // PUT /client/update/:id
   router.put('/update/:id', clientController.update)
+
+  // PUT /client/update/:id
+  router.put('/updateClientsAndActions/:id', clientController.updateClientsActions)
+
 
   return router
 }

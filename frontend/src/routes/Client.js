@@ -5,12 +5,17 @@ import './style/Client.css';
 
 const Client = (props) => {
     const [removeClient, setRemoveClient] = useState('')
+    const [editEvents, setEditEvents] = useState('');
+    const [name, setName] = useState('')
+    const [city, setCity] = useState('')
+    const [street, setStreet] = useState('')
 
-    function questionDelete(_id) {
+
+    const questionDelete = (_id) => {
         setRemoveClient(_id)
     };
 
-    function deleteClient(_id) {
+    const deleteClient = (_id) => {
         axios
             .delete('http://localhost:3005/api/delete/' + _id)
             .then(() => {
@@ -21,15 +26,34 @@ const Client = (props) => {
             })
     };
 
+    const updateEvent = (rowId) => {
+        if (window.confirm('Zaaktualizować użytkownika?')) {
+            // console.log(city)
+            axios
+                .put('http://localhost:3005/update/' + rowId,
+                    { name, city, street }, { mode: 'cors' }
+                )
+                .then((res) => {
+                    // window.location.reload();
+                    //   getEvents()
+                    setEditEvents('')
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+    }
+
+
     // let clientData = props.clientData;
 
     // console.log(props.clientDatas)
 
     let element = props.clientData.map((clientInfo, index) => {
-
         // console.log(clientInfo)
 
         if (removeClient === clientInfo._id) {
+
             return (
                 <tr key={clientInfo._id}>
                     <td>{index + 1}</td>
@@ -38,10 +62,22 @@ const Client = (props) => {
                     </td>
                     <td>
                         <ul className='clientAddress'>
-                            <li>Miasto: {clientInfo.address.city}</li>
-                            <li>Ulica: {clientInfo.address.street}</li>
-                            <li>Numer: {clientInfo.address.nr}</li>
-                            <li>Kod pocztowy:{clientInfo.address.zipcode}</li>
+                            <li>
+                                Miasto: {clientInfo.address.city}
+                            </li>
+
+                            <li>
+                                Ulica: {clientInfo.address.street}
+                            </li>
+
+                            <li>
+                                Numer: {clientInfo.address.apartmentNumber}
+                            </li>
+
+                            <li>
+                                Kod pocztowy: {clientInfo.address.zipcode}
+                            </li>
+
                         </ul>
                     </td>
                     <td>
@@ -62,31 +98,27 @@ const Client = (props) => {
                 <td>{clientInfo.name}</td>
                 <td>
                     <ul className='clientAddress'>
-                        <li>Miasto: {clientInfo.address.city}</li>
-                        <li>Ulica: {clientInfo.address.street}</li>
-                        <li>Numer: {clientInfo.address.nr}</li>
-                        <li>Kod pocztowy:{clientInfo.address.zipcode}</li>
-                    </ul>
-                    {/* <select>
-                        <option>
-                            Adres
-                        </option>
-                        <option>
+                        <li>
                             Miasto: {clientInfo.address.city}
-                        </option>
-                        <option>
+                        </li>
+
+                        <li>
                             Ulica: {clientInfo.address.street}
-                        </option>
-                        <option>
-                            Numer: {clientInfo.address.nr}
-                        </option>
-                        <option>
+
+                        </li>
+
+                        <li>
+                            Numer: {clientInfo.address.apartmentNumber}
+                        </li>
+
+                        <li>
                             Kod pocztowy: {clientInfo.address.zipcode}
-                        </option>
-                    </select> */}
+                        </li>
+                    </ul>
                 </td>
                 <td>{clientInfo.nip}</td>
                 <td>
+                    <Link className="btn" to={`/custommer/${clientInfo._id}`}>Więcej informacji</Link>
                     <button className='btn' onClick={() => questionDelete(clientInfo._id)}>Usuń klienta</button>
                 </td>
 
@@ -113,7 +145,6 @@ const Client = (props) => {
                     {element}
                 </tbody>
             </table>
-            <Link className="btn" to="/AddClient">Dodaj</Link>
         </div>
     );
 };

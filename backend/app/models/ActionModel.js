@@ -2,8 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const ActionsSchema = new Schema({
-  date: {
+  dateAdded: {
     type: String
+  },
+  visitDate: {
+    type: Date, default: Date.now()
   },
   phone: {
     type: String

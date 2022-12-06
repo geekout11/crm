@@ -11,11 +11,11 @@ form input{
     padding: 15px;
 }
 
-.error {
-    position: absolute;
+.errors {
+    font-weight: bold;
     color: red;
 }
 
-.error span {
+.errors span {
     color: green;
 }
