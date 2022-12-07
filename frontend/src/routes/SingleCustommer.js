@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../routes/style/SingleCustommer.css';
-import { format } from 'date-fns';
+import Moment from 'react-moment';
 
 const SingleCustommer = () => {
     const [status, setStatus] = useState({
@@ -137,24 +137,32 @@ const SingleCustommer = () => {
                         <td>{status.address.zipcode}</td>
                     </tr>
 
-                    {status.actions.map((clientsActions) => {
+                    {status.actions.map((clientsActions, index) => {
 
                         // console.log(status)
                         // console.log(actions)
 
                         return (
-                            <>
+                            <React.Fragment key={index}>
                                 <tr>
                                     <th colSpan='3'>Akcje</th>
                                 </tr>
                                 <tr>
-                                    <th colSpan='2'>Numer telefonu</th>
-                                    <th colSpan='2'>Data kontaktu</th>
+                                    <th colSpan='1'>Numer telefonu</th>
+                                    <th colSpan='1'>Data kontaktu</th>
+                                    <th colSpan='1'>Data dodania akcji</th>
                                 </tr>
                                 <tr>
-                                    <td colSpan='2'>{clientsActions.phone}</td>
+                                    <td colSpan='1'>{clientsActions.phone}</td>
 
-                                    <td colSpan='2'>{clientsActions.visitDate}</td>
+                                    <td colSpan='1' className='red'>
+                                        <Moment format="YYYY-MM-DD HH:mm">{clientsActions.visitDate}
+                                        </Moment>
+                                    </td>
+                                    <td colSpan='1' className='green'>
+                                        <Moment format="YYYY-MM-DD HH:mm">{clientsActions.dateAdded}
+                                        </Moment>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th colSpan='3'>Opis</th>
@@ -162,7 +170,7 @@ const SingleCustommer = () => {
                                 <tr>
                                     <td colSpan='3'>{clientsActions.textarea}</td>
                                 </tr>
-                            </>
+                            </React.Fragment>
                         )
                     })}
                 </tbody>

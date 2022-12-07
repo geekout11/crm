@@ -10,6 +10,7 @@ const Actions = () => {
     const [status, setStatus] = useState('');
     const [phone, setContactNr] = useState('');
     const [textarea, setTextarea] = useState('');
+    const [dateAdded, setDateAdded] = useState(new Date())
     const [visitDate, setStartDate] = useState(new Date());
 
     // console.log(visitDate)
@@ -18,7 +19,7 @@ const Actions = () => {
 
     const addAction = (_id) => {
         axios.put('http://localhost:3005/addAction/' + id, {
-            visitDate, phone, textarea
+            visitDate, dateAdded, phone, textarea
         }
         )
     };
@@ -54,6 +55,7 @@ const Actions = () => {
                 <button className='btn addActionOrCancel' type='submit' onClick={(e) => {
                     e.preventDefault()
                     addAction(status._id)
+                    setDateAdded()
                 }}>Dodaj</button>
                 <Link className='btn addActionOrCancel' to={`/custommer/${id}`}>Anuluj</Link>
             </form>
