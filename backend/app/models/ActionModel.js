@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const ActionsSchema = new Schema({
   dateAdded: {
-    type: String
+    type: Date
   },
   visitDate: {
     type: Date, default: Date.now()
@@ -14,10 +14,12 @@ const ActionsSchema = new Schema({
   textarea: {
     type: String
   },
-  client: {
-    type: Schema.Types.ObjectId,
-    ref: 'Client'
-  }
+
+  // client: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Client'
+  // }
+
   // actions: {
   //   type: Schema.Types.ObjectId,
   //   ref: 'Client'

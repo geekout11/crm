@@ -46,7 +46,7 @@ module.exports = {
       visitDate: req.body.visitDate,
       phone: req.body.phone,
       textarea: req.body.textarea,
-      client: null
+      // client: null
     })
 
     const client = new ClientModel({
@@ -165,6 +165,7 @@ module.exports = {
   update: (req, res, next) => {
 
     ClientModel.findByIdAndUpdate(req.params.id, req.body, (err, client) => {
+      
 
       // console.log(req.body)
       // console.log(course)
