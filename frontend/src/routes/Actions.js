@@ -42,8 +42,8 @@ const Actions = () => {
                 <div className='date'>
                     <DatePicker
                         showTimeSelect
-                        dateFormat='dd/MM/yyyy'
-                        name='startDate'
+                        dateFormat='dd/MM/yyyy hh:mm'
+                        name='visitDate'
                         selected={visitDate}
                         timeClassName={handleColor}
                         onChange={(date) => setStartDate(date)}
@@ -57,7 +57,7 @@ const Actions = () => {
                     addAction(status._id)
                     setDateAdded()
                 }}>Dodaj</button>
-                <Link className='btn addActionOrCancel' to={`/custommer/${id}`}>Anuluj</Link>
+                <Link className='btn addActionOrCancel' to={`/custommer/${id}`}>Powrót</Link>
             </form>
 
         </div>

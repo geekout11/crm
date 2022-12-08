@@ -26,23 +26,34 @@ const Client = (props) => {
             })
     };
 
-    const updateEvent = (rowId) => {
-        if (window.confirm('Zaaktualizować użytkownika?')) {
-            // console.log(city)
-            axios
-                .put('http://localhost:3005/update/' + rowId,
-                    { name, city, street }, { mode: 'cors' }
-                )
-                .then((res) => {
-                    // window.location.reload();
-                    //   getEvents()
-                    setEditEvents('')
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        }
-    }
+    // const deleteAction = (_id) => {
+    //     axios
+    //         .delete('http://localhost:3005/api/deleteAction/' + _id)
+    //         .then(() => {
+    //             props.allClientsData()
+    //         })
+    //         .catch((err) => {
+    //             console.error(err)
+    //         })
+    // };
+
+    // const updateEvent = (rowId) => {
+    //     if (window.confirm('Zaaktualizować użytkownika?')) {
+    //         // console.log(city)
+    //         axios
+    //             .put('http://localhost:3005/update/' + rowId,
+    //                 { name, city, street }, { mode: 'cors' }
+    //             )
+    //             .then((res) => {
+    //                 // window.location.reload();
+    //                 //   getEvents()
+    //                 setEditEvents('')
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err)
+    //             })
+    //     }
+    // }
 
 
     // let clientData = props.clientData;

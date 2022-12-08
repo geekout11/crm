@@ -45,3 +45,20 @@ nav ul li .ul-itm {
 nav ul li .ul-itm:hover {
   color: rgb(0, 119, 255);
 }
+
+.bg-red {
+  background-color: red !important;
+}
+
+.bg-green {
+  background-color: green !important;
+}
+
+
+.red {
+  color: red !important;
+}
+
+.green {
+  color: green !important;
+}

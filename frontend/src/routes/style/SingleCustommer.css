@@ -2,17 +2,34 @@
     width: 21%;
 }
 
-.tableWrapper .btn{
+.tableWrapper .btn {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 10px auto;
 }
 
-.red {
-    color: red;
+.removeAction {
+    width: 100% !important;
+    margin: 0 !important;
 }
 
-.green {
-    color: green;
+.deletionRequest {
+    width: 70% !important;
+    margin: auto !important;
+    
+}
+
+.deletionRequestTD {
+    margin: auto;
+    text-align: center;
+}
+
+.actionHeader {
+    padding: 50px;
+    margin: 50px;
+}
+
+.tableWrapper table {
+    width: 80%;
 }

@@ -17,6 +17,7 @@ const SingleCustommer = () => {
         actions: []
     });
 
+    const [removeAction, setRemoveAction] = useState('')
     const [name, setName] = useState('');
     const [nip, setNip] = useState('');
     const [update, setUpdate] = useState('');
@@ -24,19 +25,25 @@ const SingleCustommer = () => {
     const [street, setStreet] = useState('');
     const [apartmentNumber, setApNumber] = useState('');
     const [zipcode, setZipcode] = useState('');
+    const [phone, setPhone] = useState('');
+    const [textarea, setTextarea] = useState('');
 
     let { id } = useParams();
 
-    const editClick = (id) => {
-        setUpdate(id)
+    const editClick = (_id) => {
+        setUpdate(_id)
+    };
+
+    const questionDelete = (_id) => {
+        setRemoveAction(_id)
     };
 
     const updateClient = (_id) => {
         axios
-            .put('http://localhost:3005/update/' + id, {
+            .put('http://localhost:3005/updateClientsAndActions/' + _id, {
                 name, address: {
                     city, street, apartmentNumber, zipcode
-                }, nip
+                }, phone, textarea, nip
             })
             .then(() => {
                 setUpdate('')
@@ -44,11 +51,22 @@ const SingleCustommer = () => {
             })
     };
 
-    const oneClient = (id) => {
+    const oneClient = (_id) => {
         axios
-            .get('http://localhost:3005/fetchSingleClient/' + id)
+            .get('http://localhost:3005/fetchSingleClient/' + _id)
             .then((res) => {
                 setStatus(res.data)
+            })
+    };
+
+    const deleteAction = (_id) => {
+        axios
+            .delete('http://localhost:3005/api/deleteAction/' + _id)
+            .then((res) => {
+                oneClient(id)
+            })
+            .catch((err) => {
+                console.error(err)
             })
     };
 
@@ -58,7 +76,8 @@ const SingleCustommer = () => {
 
     // console.log(status);
 
-    if (update === status.id) {
+    if (update === status._id) {
+
         return (
             <div >
                 <table>
@@ -97,13 +116,18 @@ const SingleCustommer = () => {
                                 <input type='text' placeholder='Kod pocztowy' value={zipcode} onChange={(e) => setZipcode(e.target.value)} name='city'></input>
                             </td>
 
+                            <td>
+                                <input type='text' placeholder='Kod pocztowy' value={phone} onChange={(e) => setPhone(e.target.value)} name='phone'></input>
+                            </td>
+
                         </tr>
                     </tbody>
                 </table>
                 <button className='btn' onClick={() => updateClient(status._id)}>Zapisz</button>
-                <button className='btn' onClick={(() => setUpdate(''))}>Anuluj</button>
+                <button className='btn' onClick={(() => setUpdate(''))}>Powrót</button>
             </div>
         )
+
     };
 
     return (
@@ -115,29 +139,75 @@ const SingleCustommer = () => {
                 setStreet(status.address.street)
                 setApNumber(status.address.apartmentNumber)
                 setZipcode(status.address.zipcode)
-                editClick(status.id)
+                setPhone(status.phone)
+                editClick(status._id)
             }}>Edytuj</button>
             <Link className='btn' to={`/actions/${status._id}`}>Dodaj Akcje</Link>
             <table>
                 <thead>
                     <tr>
-                        <th colSpan='3'>Tabela</th>
+                        <th colSpan='4'>Tabela</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><th>Imię i nazwisko</th><td colSpan='2'>{status.name}</td></tr>
-                    <tr><th>NIP</th><td colSpan='2'>{status.nip}</td></tr>
+                    <tr><th>Imię i nazwisko</th><td colSpan='3'>{status.name}</td></tr>
+                    <tr><th>NIP</th><td colSpan='3'>{status.nip}</td></tr>
                     <tr>
-                        <th colSpan='3'>Adres</th>
+                        <th colSpan='4'>Adres</th>
                     </tr>
-                    <tr><th>Miasto</th><th>Ulica i numer</th><th>Kod pocztowy</th></tr>
                     <tr>
-                        <td>{status.address.city}</td>
-                        <td>{status.address.street} {status.address.apartmentNumber}</td>
-                        <td>{status.address.zipcode}</td>
+                        <th colSpan='1'>Miasto</th>
+                        <th colSpan='2'>Ulica i numer</th>
+                        <th colSpan='1'>Kod pocztowy</th>
+                    </tr>
+                    <tr>
+                        <td colSpan='1'>{status.address.city}</td>
+                        <td colSpan='2'>{status.address.street}, {status.address.apartmentNumber}</td>
+                        <td colSpan='1'>{status.address.zipcode}</td>
                     </tr>
 
                     {status.actions.map((clientsActions, index) => {
+
+
+                        if (removeAction === clientsActions._id) {
+
+                            return (
+                                <React.Fragment key={index}>
+                                    <tr>
+                                        <th colSpan='4'>Akcje</th>
+                                    </tr>
+                                    <tr>
+                                        <th colSpan='1'>Numer telefonu</th>
+                                        <th colSpan='1'>Data kontaktu</th>
+                                        <th colSpan='1'>Data dodania akcji</th>
+                                        <th colSpan='1'>Opcje</th>
+                                    </tr>
+                                    <tr>
+                                        <td colSpan='1'>{clientsActions.phone}</td>
+
+                                        <td colSpan='1' className='red'>
+                                            <Moment format="DD-MM-YYYY HH:mm">{clientsActions.visitDate}
+                                            </Moment>
+                                        </td>
+                                        <td colSpan='1' className='green'>
+                                            <Moment format="DD-MM-YYYY HH:mm">{clientsActions.dateAdded}
+                                            </Moment>
+                                        </td>
+                                        <td className='deletionRequestTD'>
+                                            <label>Jesteś pewien?</label><br />
+                                            <button className='btn deletionRequest bg-green' onClick={() => deleteAction(clientsActions._id)}>Tak</button>
+                                            <button className='btn deletionRequest bg-red' onClick={() => setRemoveAction('')}>Nie</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th colSpan='4'>Opis</th>
+                                    </tr>
+                                    <tr>
+                                        <td colSpan='4'>{clientsActions.textarea}</td>
+                                    </tr>
+                                </React.Fragment>
+                            )
+                        };
 
                         // console.log(status)
                         // console.log(actions)
@@ -145,33 +215,38 @@ const SingleCustommer = () => {
                         return (
                             <React.Fragment key={index}>
                                 <tr>
-                                    <th colSpan='3'>Akcje</th>
+                                    <th colSpan='4' className='bg-red'>Akcje</th>
                                 </tr>
                                 <tr>
                                     <th colSpan='1'>Numer telefonu</th>
                                     <th colSpan='1'>Data kontaktu</th>
                                     <th colSpan='1'>Data dodania akcji</th>
+                                    <th colSpan='1'>Opcje</th>
                                 </tr>
                                 <tr>
                                     <td colSpan='1'>{clientsActions.phone}</td>
 
                                     <td colSpan='1' className='red'>
-                                        <Moment format="YYYY-MM-DD HH:mm">{clientsActions.visitDate}
+                                        <Moment format="DD-MM-YYYY HH:mm">{clientsActions.visitDate}
                                         </Moment>
                                     </td>
                                     <td colSpan='1' className='green'>
-                                        <Moment format="YYYY-MM-DD HH:mm">{clientsActions.dateAdded}
+                                        <Moment format="DD-MM-YYYY HH:mm">{clientsActions.dateAdded}
                                         </Moment>
+                                    </td>
+                                    <td>
+                                        <button className='btn removeAction' onClick={() => questionDelete(clientsActions._id)}>Usuń akcje</button>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th colSpan='3'>Opis</th>
+                                    <th colSpan='4'>Opis</th>
                                 </tr>
                                 <tr>
-                                    <td colSpan='3'>{clientsActions.textarea}</td>
+                                    <td colSpan='4'>{clientsActions.textarea}</td>
                                 </tr>
                             </React.Fragment>
                         )
+
                     })}
                 </tbody>
             </table>

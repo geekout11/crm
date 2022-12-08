@@ -14,8 +14,12 @@
     margin: auto;
 }
 
-.actions-form .react-datepicker__input-container {
-    width: 300px;
+.actions-form .react-datepicker-wrapper {
+    text-align: center;
+}
+
+.date {
+    width: 100%;
 }
 
 .addActionOrCancel {
