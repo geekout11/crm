@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../routes/style/SingleCustommer.css';
 import Moment from 'react-moment';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const SingleCustommer = () => {
     const [status, setStatus] = useState({
@@ -27,10 +29,13 @@ const SingleCustommer = () => {
     const [zipcode, setZipcode] = useState('');
     const [phone, setPhone] = useState('');
     const [textarea, setTextarea] = useState('');
+    const [visitDate, setVisitDate] = useState(new Date())
+    const [dateAdded, setStartDate] = useState(new Date())
 
     let { id } = useParams();
 
     const editClick = (_id) => {
+        console.log(_id)
         setUpdate(_id)
     };
 
@@ -40,11 +45,23 @@ const SingleCustommer = () => {
 
     const updateClient = (_id) => {
         axios
-            .put('http://localhost:3005/updateClientsAndActions/' + _id, {
+            .put('http://localhost:3005/update/' + _id, {
                 name, address: {
                     city, street, apartmentNumber, zipcode
-                }, phone, textarea, nip
+                }, nip
             })
+            .then(() => {
+                setUpdate('')
+                oneClient(_id)
+            })
+    };
+
+    const updateAction = (_id) => {
+        axios
+            .put('http://localhost:3005/action/update/' + _id, {
+                phone, textarea, dateAdded, visitDate, nip
+            }
+            )
             .then(() => {
                 setUpdate('')
                 oneClient(_id)
@@ -70,13 +87,23 @@ const SingleCustommer = () => {
             })
     };
 
+    const handleColor = (time) => {
+        return time.getHours() > 12 ? 'text-success' : 'text-error';
+    }
+
     useEffect(() => {
         oneClient(id)
     }, []);
 
     // console.log(status);
 
+
+
     if (update === status._id) {
+
+        // console.log(status)
+        // console.log(update)
+
 
         return (
             <div >
@@ -102,7 +129,7 @@ const SingleCustommer = () => {
                             </td>
                         </tr>
                         <tr>
-                            <th>Adres</th>
+                            <th></th>
                             <td>
                                 <input type='text' placeholder='Miasto' value={city} onChange={(e) => setCity(e.target.value)} name='city'></input>
                             </td>
@@ -116,19 +143,32 @@ const SingleCustommer = () => {
                                 <input type='text' placeholder='Kod pocztowy' value={zipcode} onChange={(e) => setZipcode(e.target.value)} name='city'></input>
                             </td>
 
-                            <td>
-                                <input type='text' placeholder='Kod pocztowy' value={phone} onChange={(e) => setPhone(e.target.value)} name='phone'></input>
-                            </td>
-
                         </tr>
                     </tbody>
                 </table>
-                <button className='btn' onClick={() => updateClient(status._id)}>Zapisz</button>
-                <button className='btn' onClick={(() => setUpdate(''))}>Powrót</button>
-            </div>
-        )
 
-    };
+                <div className='editActions'>
+                    <h3>Edytuj akcje</h3>
+                    <input type='text' placeholder='Numer telefonu' value={phone} onChange={(e) => setPhone(e.target.value)} name='phone'></input>
+
+                    {/* <DatePicker
+                                showTimeSelect
+                                dateFormat='dd/MM/yyyy hh:mm'
+                                name='visitDate'
+                                selected={visitDate}
+                                timeClassName={handleColor}
+                                onChange={(date) => setVisitDate(date)}
+                            /> */}
+
+                    <textarea type='text' placeholder='Wpisz opis' value={textarea} onChange={(e) => setTextarea(e.target.value)} name='textarea'></textarea>
+
+                    <button className='btn editBtn' onClick={() => updateClient(status._id)}>Zapisz</button>
+                    <button className='btn editBtn' onClick={(() => setUpdate(''))}>Powrót</button>
+                </div>
+            </div >
+
+        )
+    }
 
     return (
         <div className='tableWrapper'>
@@ -140,9 +180,11 @@ const SingleCustommer = () => {
                 setApNumber(status.address.apartmentNumber)
                 setZipcode(status.address.zipcode)
                 setPhone(status.phone)
+                setTextarea(status.textarea)
                 editClick(status._id)
             }}>Edytuj</button>
             <Link className='btn' to={`/actions/${status._id}`}>Dodaj Akcje</Link>
+
             <table>
                 <thead>
                     <tr>
@@ -168,8 +210,11 @@ const SingleCustommer = () => {
 
                     {status.actions.map((clientsActions, index) => {
 
-
                         if (removeAction === clientsActions._id) {
+
+
+                            // console.log(update)
+                            // console.log(clientsActions)
 
                             return (
                                 <React.Fragment key={index}>
@@ -196,7 +241,9 @@ const SingleCustommer = () => {
                                         <td className='deletionRequestTD'>
                                             <label>Jesteś pewien?</label><br />
                                             <button className='btn deletionRequest bg-green' onClick={() => deleteAction(clientsActions._id)}>Tak</button>
-                                            <button className='btn deletionRequest bg-red' onClick={() => setRemoveAction('')}>Nie</button>
+                                            <button className='btn deletionRequest bg-red' onClick={() => setRemoveAction('')}
+                                            >Nie</button>
+                                            <button className='btn editBtn' onClick={() => updateAction(status._id)}>Zapisz</button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -236,6 +283,7 @@ const SingleCustommer = () => {
                                     </td>
                                     <td>
                                         <button className='btn removeAction' onClick={() => questionDelete(clientsActions._id)}>Usuń akcje</button>
+                                        <button className='btn removeAction' onClick={() => editClick(status._id)}>Edytuj akcje</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -246,8 +294,8 @@ const SingleCustommer = () => {
                                 </tr>
                             </React.Fragment>
                         )
-
                     })}
+
                 </tbody>
             </table>
         </div>

@@ -17,11 +17,34 @@
 .deletionRequest {
     width: 70% !important;
     margin: auto !important;
-    
+}
+
+.editBtn {
+    width: 30%;
 }
 
 .deletionRequestTD {
     margin: auto;
+    text-align: center;
+}
+
+.editActions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.editActions input,
+textarea {
+    padding: 5px;
+    width: 30%;
+    margin: 7px;
+    resize: vertical;
+}
+
+.editActions .react-datepicker-wrapper {
     text-align: center;
 }
 

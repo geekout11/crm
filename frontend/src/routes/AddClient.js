@@ -165,16 +165,6 @@ const AddClient = (props) => {
 
     /* ACTIONS */
 
-    const handleChangeDateDdded = (e) => {
-        // console.log('handleChangeCity')
-        setStartDate(e.target.value)
-    }
-
-    // const handleChangeVisitDate = (e) => {
-    //     // console.log('handleChangeCity')
-    //     setVisitDate(e.target.value)
-    // }
-
     const handleChangePhone = (e) => {
         // console.log('handleChangeCity')
         setPhone(e.target.value)
