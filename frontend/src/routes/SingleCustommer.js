@@ -27,22 +27,22 @@ const SingleCustommer = (i) => {
     // console.log(status)
 
     const [removeAction, setRemoveAction] = useState('')
-    const [name, setName] = useState('');
-    const [nip, setNip] = useState('');
+    // const [name, setName] = useState('');
+    // const [nip, setNip] = useState('');
     const [update, setUpdate] = useState('');
-    const [city, setCity] = useState('');
-    const [street, setStreet] = useState('');
-    const [apartmentNumber, setApNumber] = useState('');
-    const [zipcode, setZipcode] = useState('');
-    const [phone, setPhone] = useState('');
-    const [textarea, setTextarea] = useState('');
+    // const [city, setCity] = useState('');
+    // const [street, setStreet] = useState('');
+    // const [apartmentNumber, setApNumber] = useState('');
+    // const [zipcode, setZipcode] = useState('');
+    // const [phone, setPhone] = useState('');
+    // const [textarea, setTextarea] = useState('');
     const [visitDate, setVisitDate] = useState(new Date())
     const [dateAdded, setStartDate] = useState(new Date())
 
     let { id } = useParams();
 
     const editClick = (_id) => {
-        console.log(_id)
+        // console.log(_id)
         setUpdate(_id)
     };
 
@@ -53,9 +53,7 @@ const SingleCustommer = (i) => {
     const updateClient = (_id) => {
         axios
             .put('http://localhost:3005/update/' + _id, {
-                name, address: {
-                    city, street, apartmentNumber, zipcode
-                }, phone, textarea, dateAdded, visitDate, nip
+                status, status: status.address, status: status.actions
             })
             .then((res) => {
                 setUpdate('')
@@ -63,15 +61,15 @@ const SingleCustommer = (i) => {
             })
     };
 
-// console.log(status.actions[i])
+    // console.log(status.actions[i])
 
     const updateAction = (_id, i) => {
 
         // console.log(_id)
 
         axios
-            .put('http://localhost:3005/action/update/' + status.actions[0]._id,
-                {phone, textarea, dateAdded, visitDate}
+            .put('http://localhost:3005/action/update/' + _id,
+                { status: status.actions },
             )
             .then((res) => {
                 setUpdate('')
@@ -131,28 +129,28 @@ const SingleCustommer = (i) => {
                             <tr>
                                 <th colSpan='2'>Imię i nazwisko</th>
                                 <td colSpan='3'>
-                                    <input type='text' value={name} onChange={(e) => setName(e.target.value)} name='name'></input>
+                                    <input type='text' value={status.name} onChange={(e) => setStatus(e.target.value)} name='name'></input>
                                 </td>
                             </tr>
                             <tr>
                                 <th colSpan='2'>NIP</th>
                                 <td colSpan='3'>
-                                    <input type='text' value={nip} onChange={(e) => setNip(e.target.value)} name='nip'></input>
+                                    <input type='text' value={status.nip} onChange={(e) => setStatus(e.target.value)} name='nip'></input>
                                 </td>
                             </tr>
                             <tr>
                                 <th>Adres</th>
                                 <td>
-                                    <input type='text' placeholder='Miasto' value={city} onChange={(e) => setCity(e.target.value)} name='city'></input>
+                                    <input type='text' placeholder='Miasto' value={status.address.city} onChange={(e) => setStatus(e.target.value)} name='city'></input>
                                 </td>
                                 <td>
-                                    <input type='text' placeholder='Ulica' value={street} onChange={(e) => setStreet(e.target.value)} name='street'></input>
+                                    <input type='text' placeholder='Ulica' value={status.address.street} onChange={(e) => setStatus(e.target.value)} name='street'></input>
                                 </td>
                                 <td>
-                                    <input type='text' placeholder='Numer' value={apartmentNumber} onChange={(e) => setApNumber(e.target.value)} name='apartmentNumber'></input>
+                                    <input type='text' placeholder='Numer' value={status.address.apartmentNumber} onChange={(e) => setStatus(e.target.value)} name='apartmentNumber'></input>
                                 </td>
                                 <td>
-                                    <input type='text' placeholder='Kod pocztowy' value={zipcode} onChange={(e) => setZipcode(e.target.value)} name='city'></input>
+                                    <input type='text' placeholder='Kod pocztowy' value={status.address.zipcode} onChange={(e) => setStatus(e.target.value)} name='city'></input>
                                 </td>
                             </tr>
                         </tbody>
@@ -163,7 +161,7 @@ const SingleCustommer = (i) => {
 
                 <div className='editActions'>
                     <h3>Edytuj akcje</h3>
-                    <input type='text' placeholder='Numer telefonu' value={phone} onChange={(e) => setPhone(e.target.value)} name='phone'></input>
+                    <input type='text' placeholder='Numer telefonu' value={status.phone} onChange={(e) => setStatus(e.target.value)} name='phone'></input>
 
                     <DatePicker
                         showTimeSelect
@@ -174,7 +172,7 @@ const SingleCustommer = (i) => {
                         onChange={(date) => setVisitDate(date)}
                     />
 
-                    <textarea type='text' placeholder='Wpisz opis' value={textarea} onChange={(e) => setTextarea(e.target.value)} name='textarea'></textarea>
+                    <textarea type='text' placeholder='Wpisz opis' value={status.textarea} onChange={(e) => setStatus(e.target.value)} name='textarea'></textarea>
 
                     <button className='btn editBtn' onClick={() => updateAction(status._id)}>Zapisz akcje klienta</button>
                     <button className='btn editBtn' onClick={() => setUpdate('')}>Powrót</button>
@@ -190,14 +188,14 @@ const SingleCustommer = (i) => {
     return (
         <div className='tableWrapper'>
             <button className='btn' onClick={() => {
-                setName(status.name)
-                setNip(status.nip)
-                setCity(status.address.city)
-                setStreet(status.address.street)
-                setApNumber(status.address.apartmentNumber)
-                setZipcode(status.address.zipcode)
-                setPhone(status.phone)
-                setTextarea(status.textarea)
+                // setName(status.name)
+                // setNip(status.nip)
+                // setCity(status.address.city)
+                // setStreet(status.address.street)
+                // setApNumber(status.address.apartmentNumber)
+                // setZipcode(status.address.zipcode)
+                // setPhone(status.phone)
+                // setTextarea(status.textarea)
                 editClick(status._id)
             }}>Edytuj</button>
             <Link className='btn' to={`/actions/${status._id}`}>Dodaj Akcje</Link>
