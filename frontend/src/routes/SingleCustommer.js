@@ -16,8 +16,15 @@ const SingleCustommer = () => {
             zipcode: ''
         },
         nip: '',
-        actions: []
+        actions: [{
+            dateAdded: new Date(),
+            visitDate: new Date(),
+            phone: '',
+            textarea: '',
+        }]
     });
+
+    // console.log(status)
 
     const [removeAction, setRemoveAction] = useState('')
     const [name, setName] = useState('');
@@ -48,21 +55,23 @@ const SingleCustommer = () => {
             .put('http://localhost:3005/update/' + _id, {
                 name, address: {
                     city, street, apartmentNumber, zipcode
-                }, nip
+                }, phone, textarea, dateAdded, visitDate, nip, nip
             })
-            .then(() => {
+            .then((res) => {
                 setUpdate('')
                 oneClient(_id)
             })
     };
 
-    const updateAction = (_id) => {
+    const updateAction = (_id, i) => {
+
+        console.log(_id)
+
         axios
-            .put('http://localhost:3005/action/update/' + _id, {
+            .put('http://localhost:3005/action/update/' + status.actions[i]._id, {
                 phone, textarea, dateAdded, visitDate, nip
-            }
-            )
-            .then(() => {
+            })
+            .then((res) => {
                 setUpdate('')
                 oneClient(_id)
             })
@@ -162,13 +171,17 @@ const SingleCustommer = () => {
 
                     <textarea type='text' placeholder='Wpisz opis' value={textarea} onChange={(e) => setTextarea(e.target.value)} name='textarea'></textarea>
 
-                    <button className='btn editBtn' onClick={() => updateClient(status._id)}>Zapisz</button>
-                    <button className='btn editBtn' onClick={(() => setUpdate(''))}>Powrót</button>
                 </div>
+
+                <button className='btn editBtn' onClick={() => updateClient(status._id)}>Zapisz</button>
+                <button className='btn editBtn' onClick={(() => setUpdate(''))}>Powrót</button>
             </div >
 
         )
     }
+
+    // console.log(status.textarea)
+    // console.log(status.nip)
 
     return (
         <div className='tableWrapper'>
@@ -179,8 +192,8 @@ const SingleCustommer = () => {
                 setStreet(status.address.street)
                 setApNumber(status.address.apartmentNumber)
                 setZipcode(status.address.zipcode)
-                setPhone(status.phone)
-                setTextarea(status.textarea)
+                setPhone(status.actions.phone)
+                setTextarea(status.actions.textarea)
                 editClick(status._id)
             }}>Edytuj</button>
             <Link className='btn' to={`/actions/${status._id}`}>Dodaj Akcje</Link>
