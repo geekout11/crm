@@ -63,7 +63,7 @@ const SingleCustommer = (i) => {
             })
     };
 
-console.log(status.actions[i])
+// console.log(status.actions[i])
 
     const updateAction = (_id, i) => {
 
