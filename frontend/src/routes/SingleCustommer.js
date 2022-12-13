@@ -7,35 +7,26 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const SingleCustommer = (i) => {
-    const [status, setStatus] = useState({
-        name: '',
-        address: {
-            city: '',
-            street: '',
-            apartmentNumber: '',
-            zipcode: ''
-        },
-        nip: '',
-        actions: [{
-            dateAdded: new Date(),
-            visitDate: new Date(),
-            phone: '',
-            textarea: '',
-        }]
-    });
+    const [status, setStatus] = useState('');
+    const [address, setAddress] = useState({
+        city: '',
+        street: '',
+        apartmentNumber: '',
+        zipcode: ''
+    })
 
-    // console.log(status)
+    console.log(status.address)
 
     const [removeAction, setRemoveAction] = useState('')
-    // const [name, setName] = useState('');
-    // const [nip, setNip] = useState('');
+    const [name, setName] = useState('');
+    const [nip, setNip] = useState('');
     const [update, setUpdate] = useState('');
-    // const [city, setCity] = useState('');
-    // const [street, setStreet] = useState('');
-    // const [apartmentNumber, setApNumber] = useState('');
-    // const [zipcode, setZipcode] = useState('');
-    // const [phone, setPhone] = useState('');
-    // const [textarea, setTextarea] = useState('');
+    const [city, setCity] = useState('');
+    const [street, setStreet] = useState('');
+    const [apartmentNumber, setApNumber] = useState('');
+    const [zipcode, setZipcode] = useState('');
+    const [phone, setPhone] = useState('');
+    const [textarea, setTextarea] = useState('');
     const [visitDate, setVisitDate] = useState(new Date())
     const [dateAdded, setStartDate] = useState(new Date())
 
@@ -53,7 +44,9 @@ const SingleCustommer = (i) => {
     const updateClient = (_id) => {
         axios
             .put('http://localhost:3005/update/' + _id, {
-                status, status: status.address, status: status.actions
+                name, address: {
+                    city, street, apartmentNumber, zipcode
+                }, phone, textarea, dateAdded, visitDate, nip, nip
             })
             .then((res) => {
                 setUpdate('')
@@ -63,23 +56,25 @@ const SingleCustommer = (i) => {
 
     // console.log(status.actions[i])
 
-    const updateAction = (_id, i) => {
+    // const updateAction = (_id, i) => {
 
-        // console.log(_id)
+    //     // console.log(_id)
 
-        axios
-            .put('http://localhost:3005/action/update/' + _id,
-                { status: status.actions },
-            )
-            .then((res) => {
-                setUpdate('')
-                oneClient(_id)
-            })
-    };
+    //     axios
+    //         .put('http://localhost:3005/action/update/' + _id,
+    //             { status: status.actions },
+    //         )
+    //         .then((res) => {
+    //             setUpdate('')
+    //             oneClient(_id)
+    //         })
+    // };
 
     const oneClient = (_id) => {
         axios
-            .get('http://localhost:3005/fetchSingleClient/' + _id)
+            .get('http://localhost:3005/fetchSingleClient/' + _id, {
+                address
+            })
             .then((res) => {
                 setStatus(res.data)
             })
@@ -106,6 +101,77 @@ const SingleCustommer = (i) => {
 
     // console.log(status);
 
+    const handleChangeName = (e) => {
+        // console.log(e)
+        setStatus(e.target.value)
+    }
+
+    const handleChangeNip = (e) => {
+        // console.log(e)
+        setStatus(e.target.value)
+    }
+
+    const handleChangeCity = (e) => {
+        // console.log('handleChangeAddress')
+        setAddress((prevAddress) => {
+            return {
+                city: e.target.value,
+                street: prevAddress.street,
+                apartmentNumber: prevAddress.apartmentNumber,
+                zipcode: prevAddress.zipcode
+            }
+        });
+    }
+
+    const handleChangeStreet = (e) => {
+        // console.log('handleChangeAddress')
+        setAddress((prevAddress) => {
+            return {
+                street: e.target.value,
+                city: prevAddress.city,
+                apartmentNumber: prevAddress.apartmentNumber,
+                zipcode: prevAddress.zipcode
+            }
+        });
+    }
+
+    const handleChangeApartmentNumber = (e) => {
+        // console.log('handleChangeAddress')
+        setAddress((prevAddress) => {
+            return {
+                street: prevAddress.street,
+                city: prevAddress.city,
+                apartmentNumber: e.target.value,
+                zipcode: prevAddress.zipcode
+            }
+        });
+    }
+
+    const handleChangeZipcode = (e) => {
+        // console.log('handleChangeAddress')
+        setAddress((prevAddress) => {
+            return {
+                street: prevAddress.street,
+                city: prevAddress.city,
+                apartmentNumber: prevAddress.apartmentNumber,
+                zipcode: e.target.value
+            }
+        });
+    }
+
+
+    /* ACTIONS */
+
+    const handleChangePhone = (e) => {
+        // console.log('handleChangeCity')
+        setStatus(e.target.value)
+    }
+
+    const handleChangeTextarea = (e) => {
+        // console.log('handleChangeCity')
+        setStatus(e.target.value)
+    }
+
 
 
     if (update === status._id) {
@@ -129,28 +195,28 @@ const SingleCustommer = (i) => {
                             <tr>
                                 <th colSpan='2'>Imię i nazwisko</th>
                                 <td colSpan='3'>
-                                    <input type='text' value={status.name} onChange={(e) => setStatus(e.target.value)} name='name'></input>
+                                    <input type='text' value={name} onChange={handleChangeName} name='name'></input>
                                 </td>
                             </tr>
                             <tr>
                                 <th colSpan='2'>NIP</th>
                                 <td colSpan='3'>
-                                    <input type='text' value={status.nip} onChange={(e) => setStatus(e.target.value)} name='nip'></input>
+                                    <input type='text' value={nip} onChange={handleChangeNip} name='nip'></input>
                                 </td>
                             </tr>
                             <tr>
                                 <th>Adres</th>
                                 <td>
-                                    <input type='text' placeholder='Miasto' value={status.address.city} onChange={(e) => setStatus(e.target.value)} name='city'></input>
+                                    <input type='text' placeholder='Miasto' value={city} onChange={handleChangeCity} name='city'></input>
                                 </td>
                                 <td>
-                                    <input type='text' placeholder='Ulica' value={status.address.street} onChange={(e) => setStatus(e.target.value)} name='street'></input>
+                                    <input type='text' placeholder='Ulica' value={street} onChange={handleChangeStreet} name='street'></input>
                                 </td>
                                 <td>
-                                    <input type='text' placeholder='Numer' value={status.address.apartmentNumber} onChange={(e) => setStatus(e.target.value)} name='apartmentNumber'></input>
+                                    <input type='text' placeholder='Numer' value={apartmentNumber} onChange={handleChangeApartmentNumber} name='apartmentNumber'></input>
                                 </td>
                                 <td>
-                                    <input type='text' placeholder='Kod pocztowy' value={status.address.zipcode} onChange={(e) => setStatus(e.target.value)} name='city'></input>
+                                    <input type='text' placeholder='Kod pocztowy' value={zipcode} onChange={handleChangeZipcode} name='city'></input>
                                 </td>
                             </tr>
                         </tbody>
@@ -161,7 +227,7 @@ const SingleCustommer = (i) => {
 
                 <div className='editActions'>
                     <h3>Edytuj akcje</h3>
-                    <input type='text' placeholder='Numer telefonu' value={status.phone} onChange={(e) => setStatus(e.target.value)} name='phone'></input>
+                    <input type='text' placeholder='Numer telefonu' value={status.phone} onChange={handleChangePhone} name='phone'></input>
 
                     <DatePicker
                         showTimeSelect
@@ -172,9 +238,9 @@ const SingleCustommer = (i) => {
                         onChange={(date) => setVisitDate(date)}
                     />
 
-                    <textarea type='text' placeholder='Wpisz opis' value={status.textarea} onChange={(e) => setStatus(e.target.value)} name='textarea'></textarea>
+                    <textarea type='text' placeholder='Wpisz opis' value={status.textarea} onChange={handleChangeTextarea} name='textarea'></textarea>
 
-                    <button className='btn editBtn' onClick={() => updateAction(status._id)}>Zapisz akcje klienta</button>
+                    {/* <button className='btn editBtn' onClick={() => updateAction(status._id)}>Zapisz akcje klienta</button> */}
                     <button className='btn editBtn' onClick={() => setUpdate('')}>Powrót</button>
                 </div>
             </div >
@@ -184,16 +250,17 @@ const SingleCustommer = (i) => {
 
     // console.log(status.textarea)
     // console.log(status.nip)
+    // console.log(status)
 
     return (
         <div className='tableWrapper'>
             <button className='btn' onClick={() => {
-                // setName(status.name)
-                // setNip(status.nip)
-                // setCity(status.address.city)
-                // setStreet(status.address.street)
-                // setApNumber(status.address.apartmentNumber)
-                // setZipcode(status.address.zipcode)
+                setName(name)
+                setNip(nip)
+                setCity(city)
+                setStreet(street)
+                setApNumber(apartmentNumber)
+                setZipcode(zipcode)
                 // setPhone(status.phone)
                 // setTextarea(status.textarea)
                 editClick(status._id)
@@ -218,12 +285,12 @@ const SingleCustommer = (i) => {
                         <th colSpan='1'>Kod pocztowy</th>
                     </tr>
                     <tr>
-                        <td colSpan='1'>{status.address.city}</td>
-                        <td colSpan='2'>{status.address.street}, {status.address.apartmentNumber}</td>
-                        <td colSpan='1'>{status.address.zipcode}</td>
+                        <td colSpan='1'>{city}</td>
+                        <td colSpan='2'>{street}, {apartmentNumber}</td>
+                        <td colSpan='1'>{zipcode}</td>
                     </tr>
 
-                    {status.actions.map((clientsActions, index) => {
+                    {status.actions?.map((clientsActions, index) => {
 
                         if (removeAction === clientsActions._id) {
 
@@ -258,7 +325,7 @@ const SingleCustommer = (i) => {
                                             <button className='btn deletionRequest bg-green' onClick={() => deleteAction(clientsActions._id)}>Tak</button>
                                             <button className='btn deletionRequest bg-red' onClick={() => setRemoveAction('')}
                                             >Nie</button>
-                                            <button className='btn editBtn' onClick={() => updateAction(status._id)}>Zapisz</button>
+                                            {/* <button className='btn editBtn' onClick={() => updateAction(status._id)}>Zapisz</button> */}
                                         </td>
                                     </tr>
                                     <tr>
