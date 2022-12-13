@@ -6,7 +6,7 @@ import Moment from 'react-moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const SingleCustommer = () => {
+const SingleCustommer = (i) => {
     const [status, setStatus] = useState({
         name: '',
         address: {
@@ -55,7 +55,7 @@ const SingleCustommer = () => {
             .put('http://localhost:3005/update/' + _id, {
                 name, address: {
                     city, street, apartmentNumber, zipcode
-                }, phone, textarea, dateAdded, visitDate, nip, nip
+                }, phone, textarea, dateAdded, visitDate, nip
             })
             .then((res) => {
                 setUpdate('')
@@ -63,14 +63,16 @@ const SingleCustommer = () => {
             })
     };
 
+console.log(status.actions[i])
+
     const updateAction = (_id, i) => {
 
-        console.log(_id)
+        // console.log(_id)
 
         axios
-            .put('http://localhost:3005/action/update/' + status.actions[i]._id, {
-                phone, textarea, dateAdded, visitDate, nip
-            })
+            .put('http://localhost:3005/action/update/' + status.actions[0]._id,
+                {phone, textarea, dateAdded, visitDate}
+            )
             .then((res) => {
                 setUpdate('')
                 oneClient(_id)
@@ -115,66 +117,68 @@ const SingleCustommer = () => {
 
 
         return (
-            <div >
-                <table>
-                    <thead>
-                        <tr>
-                            <th colSpan='5'>
-                                Edytuj Klienta
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th colSpan='2'>Imię i nazwisko</th>
-                            <td colSpan='3'>
-                                <input type='text' value={name} onChange={(e) => setName(e.target.value)} name='name'></input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th colSpan='2'>NIP</th>
-                            <td colSpan='3'>
-                                <input type='text' value={nip} onChange={(e) => setNip(e.target.value)} name='nip'></input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td>
-                                <input type='text' placeholder='Miasto' value={city} onChange={(e) => setCity(e.target.value)} name='city'></input>
-                            </td>
-                            <td>
-                                <input type='text' placeholder='Ulica' value={street} onChange={(e) => setStreet(e.target.value)} name='street'></input>
-                            </td>
-                            <td>
-                                <input type='text' placeholder='Numer' value={apartmentNumber} onChange={(e) => setApNumber(e.target.value)} name='apartmentNumber'></input>
-                            </td>
-                            <td>
-                                <input type='text' placeholder='Kod pocztowy' value={zipcode} onChange={(e) => setZipcode(e.target.value)} name='city'></input>
-                            </td>
+            <div>
+                <div className='editCustomerData'>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colSpan='5'>
+                                    Edytuj Klienta
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th colSpan='2'>Imię i nazwisko</th>
+                                <td colSpan='3'>
+                                    <input type='text' value={name} onChange={(e) => setName(e.target.value)} name='name'></input>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colSpan='2'>NIP</th>
+                                <td colSpan='3'>
+                                    <input type='text' value={nip} onChange={(e) => setNip(e.target.value)} name='nip'></input>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Adres</th>
+                                <td>
+                                    <input type='text' placeholder='Miasto' value={city} onChange={(e) => setCity(e.target.value)} name='city'></input>
+                                </td>
+                                <td>
+                                    <input type='text' placeholder='Ulica' value={street} onChange={(e) => setStreet(e.target.value)} name='street'></input>
+                                </td>
+                                <td>
+                                    <input type='text' placeholder='Numer' value={apartmentNumber} onChange={(e) => setApNumber(e.target.value)} name='apartmentNumber'></input>
+                                </td>
+                                <td>
+                                    <input type='text' placeholder='Kod pocztowy' value={zipcode} onChange={(e) => setZipcode(e.target.value)} name='city'></input>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                        </tr>
-                    </tbody>
-                </table>
+                <button className='btn editBtn' onClick={() => updateClient(status._id)}>Zapisz dane klienta</button>
 
                 <div className='editActions'>
                     <h3>Edytuj akcje</h3>
                     <input type='text' placeholder='Numer telefonu' value={phone} onChange={(e) => setPhone(e.target.value)} name='phone'></input>
 
-                    {/* <DatePicker
-                                showTimeSelect
-                                dateFormat='dd/MM/yyyy hh:mm'
-                                name='visitDate'
-                                selected={visitDate}
-                                timeClassName={handleColor}
-                                onChange={(date) => setVisitDate(date)}
-                            /> */}
+                    <DatePicker
+                        showTimeSelect
+                        dateFormat='dd/MM/yyyy hh:mm'
+                        name='visitDate'
+                        selected={visitDate}
+                        timeClassName={handleColor}
+                        onChange={(date) => setVisitDate(date)}
+                    />
 
                     <textarea type='text' placeholder='Wpisz opis' value={textarea} onChange={(e) => setTextarea(e.target.value)} name='textarea'></textarea>
 
+                    <button className='btn editBtn' onClick={() => updateAction(status._id)}>Zapisz akcje klienta</button>
+                    <button className='btn editBtn' onClick={() => setUpdate('')}>Powrót</button>
                 </div>
-
-                <button className='btn editBtn' onClick={() => updateClient(status._id)}>Zapisz</button>
-                <button className='btn editBtn' onClick={(() => setUpdate(''))}>Powrót</button>
             </div >
 
         )
@@ -192,8 +196,8 @@ const SingleCustommer = () => {
                 setStreet(status.address.street)
                 setApNumber(status.address.apartmentNumber)
                 setZipcode(status.address.zipcode)
-                setPhone(status.actions.phone)
-                setTextarea(status.actions.textarea)
+                setPhone(status.phone)
+                setTextarea(status.textarea)
                 editClick(status._id)
             }}>Edytuj</button>
             <Link className='btn' to={`/actions/${status._id}`}>Dodaj Akcje</Link>
