@@ -78,9 +78,12 @@ module.exports = {
           })
         }
 
-   // http 201 == Created
+        // return res.status(201).json(client) // http 201 == Created
+
       })
-      return res.status(201).json(action)
+
+      return res.status(201).json(action) // http 201 == Created
+      
     })
 
   },

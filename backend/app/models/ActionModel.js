@@ -15,10 +15,10 @@ const ActionsSchema = new Schema({
     type: String
   },
 
-  client: {
-    type: Schema.Types.ObjectId,
-    ref: 'Client'
-  }
+  // client: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Client'
+  // }
 
   // actions: {
   //   type: Schema.Types.ObjectId,

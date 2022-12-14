@@ -120,7 +120,7 @@ const SingleCustommer = (i, _id) => {
 
     if (update === status._id) {
 
-        // console.log(status)
+        // console.log(status._id)
         // console.log(update)
 
         return (
@@ -246,12 +246,12 @@ const SingleCustommer = (i, _id) => {
 
                     {status.actions.map((clientsActions, index) => {
 
-                        if (actionUpdate === status.actions) {
+                        if (actionUpdate) {
 
                             // console.log(status.actions[i]._id)
                             console.log(status.actions)
                             // console.log(update)
-                            // console.log(status.actions[id])
+                            console.log(actionUpdate)
 
                             return (
                                 <div>
@@ -270,7 +270,7 @@ const SingleCustommer = (i, _id) => {
 
                                         <textarea type='text' placeholder='Wpisz opis' value={textarea} onChange={(e) => setTextarea(e.target.value)} name='textarea'></textarea>
 
-                                        <button className='btn editBtn' onClick={(i, _id) => updateAction(clientsActions._id)}>Zapisz akcje klienta</button>
+                                        <button className='btn editBtn' onClick={() => updateAction(clientsActions._id)}>Zapisz akcje klienta</button>
                                         <button className='btn editBtn' onClick={() => setActionUpdate('')}>Powrót</button>
                                     </div>
                                 </div >
