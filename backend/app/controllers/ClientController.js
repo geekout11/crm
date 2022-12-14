@@ -46,7 +46,7 @@ module.exports = {
       visitDate: req.body.visitDate,
       phone: req.body.phone,
       textarea: req.body.textarea,
-      // client: null
+      client: null
     })
 
     const client = new ClientModel({
@@ -62,7 +62,7 @@ module.exports = {
     // console.log(client)
     // console.log(req.body)
     // console.log(actions)
-    action.save((err) => {
+    action.save((err, action) => {
       if (err) {
         return res.status(500).json({
           message: 'Error while creating Action',
@@ -70,7 +70,7 @@ module.exports = {
         })
       }
 
-      client.save((err, event) => {
+      client.save((err, client) => {
         if (err) {
           return res.status(500).json({
             message: 'Error while creating Client',
@@ -78,8 +78,9 @@ module.exports = {
           })
         }
 
-        return res.status(201).json(event) // http 201 == Created
+   // http 201 == Created
       })
+      return res.status(201).json(action)
     })
 
   },

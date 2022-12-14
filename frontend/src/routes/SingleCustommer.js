@@ -173,37 +173,37 @@ const SingleCustommer = (i, _id) => {
         )
     }
 
-    if (actionUpdate === status.actions) {
+    // if (actionUpdate === status.actions) {
 
-        // console.log(status.actions[i]._id)
-        console.log(status.actions)
-        // console.log(update)
-        // console.log(status.actions[id])
+    //     // console.log(status.actions[i]._id)
+    //     console.log(status.actions)
+    //     // console.log(update)
+    //     // console.log(status.actions[id])
 
-        return (
-            <div>
-                <div className='editActions'>
-                    <h3>Edytuj akcje</h3>
-                    <input type='text' placeholder='Numer telefonu' value={phone} onChange={(e) => setPhone(e.target.value)} name='phone'></input>
+    //     return (
+    //         <div>
+    //             <div className='editActions'>
+    //                 <h3>Edytuj akcje</h3>
+    //                 <input type='text' placeholder='Numer telefonu' value={phone} onChange={(e) => setPhone(e.target.value)} name='phone'></input>
 
-                    {/* <DatePicker
-                        showTimeSelect
-                        dateFormat='dd/MM/yyyy hh:mm'
-                        name='visitDate'
-                        selected={visitDate}
-                        timeClassName={handleColor}
-                        onChange={(date) => setVisitDate(date)}
-                    /> */}
+    //                 {/* <DatePicker
+    //                     showTimeSelect
+    //                     dateFormat='dd/MM/yyyy hh:mm'
+    //                     name='visitDate'
+    //                     selected={visitDate}
+    //                     timeClassName={handleColor}
+    //                     onChange={(date) => setVisitDate(date)}
+    //                 /> */}
 
-                    <textarea type='text' placeholder='Wpisz opis' value={textarea} onChange={(e) => setTextarea(e.target.value)} name='textarea'></textarea>
+    //                 <textarea type='text' placeholder='Wpisz opis' value={textarea} onChange={(e) => setTextarea(e.target.value)} name='textarea'></textarea>
 
-                    <button className='btn editBtn' onClick={(i, _id) => updateAction({_id: _id})}>Zapisz akcje klienta</button>
-                    <button className='btn editBtn' onClick={() => setActionUpdate('')}>Powrót</button>
-                </div>
-            </div >
+    //                 <button className='btn editBtn' onClick={(i, _id) => updateAction({_id: _id})}>Zapisz akcje klienta</button>
+    //                 <button className='btn editBtn' onClick={() => setActionUpdate('')}>Powrót</button>
+    //             </div>
+    //         </div >
 
-        )
-    }
+    //     )
+    // }
 
     // console.log(status.textarea)
     // console.log(status.nip)
@@ -245,6 +245,38 @@ const SingleCustommer = (i, _id) => {
                     </tr>
 
                     {status.actions.map((clientsActions, index) => {
+
+                        if (actionUpdate === status.actions) {
+
+                            // console.log(status.actions[i]._id)
+                            console.log(status.actions)
+                            // console.log(update)
+                            // console.log(status.actions[id])
+
+                            return (
+                                <div>
+                                    <div className='editActions'>
+                                        <h3>Edytuj akcje</h3>
+                                        <input type='text' placeholder='Numer telefonu' value={phone} onChange={(e) => setPhone(e.target.value)} name='phone'></input>
+
+                                        {/* <DatePicker
+                    showTimeSelect
+                    dateFormat='dd/MM/yyyy hh:mm'
+                    name='visitDate'
+                    selected={visitDate}
+                    timeClassName={handleColor}
+                    onChange={(date) => setVisitDate(date)}
+                /> */}
+
+                                        <textarea type='text' placeholder='Wpisz opis' value={textarea} onChange={(e) => setTextarea(e.target.value)} name='textarea'></textarea>
+
+                                        <button className='btn editBtn' onClick={(i, _id) => updateAction(clientsActions._id)}>Zapisz akcje klienta</button>
+                                        <button className='btn editBtn' onClick={() => setActionUpdate('')}>Powrót</button>
+                                    </div>
+                                </div >
+
+                            )
+                        }
 
                         // console.log(status.actions)
                         // console.log(clientsActions._id)

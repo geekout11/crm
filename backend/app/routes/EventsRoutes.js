@@ -44,6 +44,8 @@ module.exports = () => {
   // PUT /client/update/:id
   router.put('/updateClientsAndActions/:id', clientController.updateClientsActions)
 
+  // PUT /client/update/:id
+  router.put('/action/update/:id', actionController.updateAction)
 
   return router
 }
