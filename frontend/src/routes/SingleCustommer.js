@@ -43,13 +43,8 @@ const SingleCustommer = (i, _id) => {
     let { id } = useParams();
 
     const editClick = (_id) => {
-        console.log(_id)
+        // console.log(_id)
         setUpdate(_id)
-    };
-
-    const editActionButton = (_id) => {
-        console.log(_id)
-        setActionUpdate(_id)
     };
 
     const questionDelete = (_id) => {
@@ -82,8 +77,8 @@ const SingleCustommer = (i, _id) => {
                 }
             )
             .then((res) => {
+                window.location.reload()
                 setActionUpdate('')
-                oneClient(_id)
             })
     };
 
@@ -116,9 +111,21 @@ const SingleCustommer = (i, _id) => {
 
     // console.log(status);
 
+    const handleChangePhone = (e) => {
+        // console.log(e)
+        setPhone(e.target.value)
+    }
 
 
-    if (update === status._id) {
+    const handleChangeTextarea = (e) => {
+        // console.log('handleChangeCity')
+        setTextarea(e.target.value)
+    }
+
+
+
+
+    if (update) {
 
         // console.log(status._id)
         // console.log(update)
@@ -173,38 +180,6 @@ const SingleCustommer = (i, _id) => {
         )
     }
 
-    // if (actionUpdate === status.actions) {
-
-    //     // console.log(status.actions[i]._id)
-    //     console.log(status.actions)
-    //     // console.log(update)
-    //     // console.log(status.actions[id])
-
-    //     return (
-    //         <div>
-    //             <div className='editActions'>
-    //                 <h3>Edytuj akcje</h3>
-    //                 <input type='text' placeholder='Numer telefonu' value={phone} onChange={(e) => setPhone(e.target.value)} name='phone'></input>
-
-    //                 {/* <DatePicker
-    //                     showTimeSelect
-    //                     dateFormat='dd/MM/yyyy hh:mm'
-    //                     name='visitDate'
-    //                     selected={visitDate}
-    //                     timeClassName={handleColor}
-    //                     onChange={(date) => setVisitDate(date)}
-    //                 /> */}
-
-    //                 <textarea type='text' placeholder='Wpisz opis' value={textarea} onChange={(e) => setTextarea(e.target.value)} name='textarea'></textarea>
-
-    //                 <button className='btn editBtn' onClick={(i, _id) => updateAction({_id: _id})}>Zapisz akcje klienta</button>
-    //                 <button className='btn editBtn' onClick={() => setActionUpdate('')}>Powrót</button>
-    //             </div>
-    //         </div >
-
-    //     )
-    // }
-
     // console.log(status.textarea)
     // console.log(status.nip)
 
@@ -246,40 +221,48 @@ const SingleCustommer = (i, _id) => {
 
                     {status.actions.map((clientsActions, index) => {
 
-                        if (actionUpdate) {
+                        if (actionUpdate === clientsActions._id) {
 
-                            // console.log(status.actions[i]._id)
-                            console.log(status.actions)
-                            // console.log(update)
-                            console.log(actionUpdate)
+                            // console.log(clientsActions)
 
                             return (
-                                <div>
-                                    <div className='editActions'>
-                                        <h3>Edytuj akcje</h3>
-                                        <input type='text' placeholder='Numer telefonu' value={phone} onChange={(e) => setPhone(e.target.value)} name='phone'></input>
+                                <tr key={clientsActions._id}>
+                                    <td>
+                                        <input
+                                            type='text'
+                                            placeholder='Numer telefonu'
+                                            value={status.phone}
+                                            onChange={handleChangePhone} name='phone' />
+                                    </td>
 
-                                        {/* <DatePicker
-                    showTimeSelect
-                    dateFormat='dd/MM/yyyy hh:mm'
-                    name='visitDate'
-                    selected={visitDate}
-                    timeClassName={handleColor}
-                    onChange={(date) => setVisitDate(date)}
-                /> */}
+                                    <td>
+                                        <DatePicker
+                                            showTimeSelect
+                                            dateFormat='dd/MM/yyyy hh:mm'
+                                            name='visitDate'
+                                            selected={visitDate}
+                                            timeClassName={handleColor}
+                                            onChange={(date) => setVisitDate(date)}
+                                        />
+                                    </td>
 
-                                        <textarea type='text' placeholder='Wpisz opis' value={textarea} onChange={(e) => setTextarea(e.target.value)} name='textarea'></textarea>
+                                    <td>
+                                        <textarea
+                                            type='text'
+                                            placeholder='Wpisz opis'
+                                            value={status.textarea}
+                                            onChange={handleChangeTextarea}
+                                            name='textarea' />
+                                    </td>
 
-                                        <button className='btn editBtn' onClick={() => updateAction(clientsActions._id)}>Zapisz akcje klienta</button>
-                                        <button className='btn editBtn' onClick={() => setActionUpdate('')}>Powrót</button>
-                                    </div>
-                                </div >
-
+                                    <td>
+                                        <button type="submit" className="save" onClick={() => updateAction(clientsActions._id)}>Zapisz</button></td>
+                                </tr>
                             )
                         }
-
                         // console.log(status.actions)
                         // console.log(clientsActions._id)
+
 
                         if (removeAction === clientsActions._id) {
 
@@ -313,7 +296,6 @@ const SingleCustommer = (i, _id) => {
                                             <button className='btn deletionRequest bg-green' onClick={() => deleteAction(clientsActions._id)}>Tak</button>
                                             <button className='btn deletionRequest bg-red' onClick={() => setRemoveAction('')}
                                             >Nie</button>
-                                            {/* <button className='btn editBtn' onClick={() => updateAction(status._id)}>Zapisz</button> */}
                                         </td>
                                     </tr>
                                     <tr>
@@ -328,6 +310,7 @@ const SingleCustommer = (i, _id) => {
 
                         // console.log(status)
                         // console.log(actions)
+
 
                         return (
                             <React.Fragment key={index}>
@@ -352,13 +335,13 @@ const SingleCustommer = (i, _id) => {
                                         </Moment>
                                     </td>
                                     <td>
-                                        <button className='btn removeAction' onClick={() => questionDelete(clientsActions._id)}>Usuń akcje</button>
                                         <button className='btn removeAction' onClick={(i) => {
-                                            editActionButton(status.actions)
+                                            setActionUpdate(clientsActions._id)
                                             setPhone(status.phone)
                                             setTextarea(status.textarea)
                                         }
                                         }>Edytuj akcje</button>
+                                        <button className='btn removeAction' onClick={() => questionDelete(clientsActions._id)}>Usuń akcje</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -370,7 +353,6 @@ const SingleCustommer = (i, _id) => {
                             </React.Fragment>
                         )
                     })}
-
                 </tbody>
             </table>
         </div >
