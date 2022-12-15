@@ -254,7 +254,7 @@ const AddClient = (props) => {
                     </textarea>
                 </div>
 
-                <button className="btn" type="submit" >Dodaj klienta</button>
+                <button className="btn" type="submit">Dodaj klienta</button>
 
                 <div className='errorsWrapper'>
                     <ul className='errors'>{errors}</ul>

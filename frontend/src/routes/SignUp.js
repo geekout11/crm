@@ -41,14 +41,39 @@ const SignUp = () => {
     const { email, password, passwordRep } = form
 
     return (
-        <div >
+        <div>
             <p className='error'>{error}</p>
             <form>
                 <h3>Rejestracja</h3>
-                <input onChange={StateSignUP} value={email} type='email' name='email' placeholder='Podaj email' ></input>
-                <input onChange={StateSignUP} value={password} type='password' name='password' placeholder='Podaj hasło'></input>
-                <input onChange={StateSignUP} value={passwordRep} type='password' name='passwordRep' placeholder='Powtórz hasło'></input>
-                <button className='btn' onClick={submitFanction} type='submit' name='submit' >Zarejestruj</button>
+
+                <input
+                    onChange={StateSignUP}
+                    value={email}
+                    type='email'
+                    name='email'
+                    placeholder='Podaj email' />
+
+                <input
+                    onChange={StateSignUP}
+                    value={password}
+                    type='password'
+                    name='password'
+                    placeholder='Podaj hasło' />
+
+                <input
+                    onChange={StateSignUP}
+                    value={passwordRep}
+                    type='password'
+                    name='passwordRep'
+                    placeholder='Powtórz hasło' />
+
+                <button
+                    className='btn'
+                    onClick={submitFanction}
+                    type='submit'
+                    name='submit'>
+                    Zarejestruj
+                </button>
             </form>
 
         </div>

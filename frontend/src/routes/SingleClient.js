@@ -6,8 +6,8 @@ import Moment from 'react-moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const SingleCustommer = (i, _id) => {
-    const [status, setStatus] = useState({
+const SingleClient = (i, _id) => {
+    const [client, setClient] = useState({
         name: '',
         address: {
             city: '',
@@ -24,7 +24,7 @@ const SingleCustommer = (i, _id) => {
         }]
     });
 
-    // console.log(status)
+    // console.log(client)
 
     const [removeAction, setRemoveAction] = useState('')
     const [name, setName] = useState('');
@@ -56,7 +56,7 @@ const SingleCustommer = (i, _id) => {
             .put('http://localhost:3005/update/' + _id, {
                 name, address: {
                     city, street, apartmentNumber, zipcode
-                }, phone, textarea, dateAdded, visitDate, nip
+                }
             })
             .then((res) => {
                 setUpdate('')
@@ -64,7 +64,7 @@ const SingleCustommer = (i, _id) => {
             })
     };
 
-    // console.log(status.actions[i])
+    // console.log(client.actions[i])
 
     const updateAction = (_id, i) => {
 
@@ -86,7 +86,7 @@ const SingleCustommer = (i, _id) => {
         axios
             .get('http://localhost:3005/fetchSingleClient/' + _id)
             .then((res) => {
-                setStatus(res.data)
+                setClient(res.data)
             })
     };
 
@@ -109,7 +109,7 @@ const SingleCustommer = (i, _id) => {
         oneClient(id)
     }, []);
 
-    // console.log(status);
+    // console.log(client);
 
     const handleChangePhone = (e) => {
         // console.log(e)
@@ -127,7 +127,7 @@ const SingleCustommer = (i, _id) => {
 
     if (update) {
 
-        // console.log(status._id)
+        // console.log(client._id)
         // console.log(update)
 
         return (
@@ -142,59 +142,106 @@ const SingleCustommer = (i, _id) => {
                             </tr>
                         </thead>
                         <tbody>
+
                             <tr>
-                                <th colSpan='2'>Imię i nazwisko</th>
+                                <th colSpan='2'>
+                                    Imię i nazwisko
+                                </th>
+
                                 <td colSpan='3'>
-                                    <input type='text' value={name} onChange={(e) => setName(e.target.value)} name='name'></input>
+                                    <input
+                                        type='text'
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)} name='name' />
                                 </td>
                             </tr>
+
                             <tr>
-                                <th colSpan='2'>NIP</th>
+                                <th colSpan='2'
+                                >NIP
+                                </th>
                                 <td colSpan='3'>
-                                    <input type='text' value={nip} onChange={(e) => setNip(e.target.value)} name='nip'></input>
+                                    <input
+                                        type='text'
+                                        value={nip}
+                                        onChange={(e) => setNip(e.target.value)} name='nip' />
                                 </td>
                             </tr>
+
                             <tr>
+
                                 <th>Adres</th>
                                 <td>
-                                    <input type='text' placeholder='Miasto' value={city} onChange={(e) => setCity(e.target.value)} name='city'></input>
+                                    <input
+                                        type='text'
+                                        placeholder='Miasto'
+                                        value={city}
+                                        onChange={(e) => setCity(e.target.value)}
+                                        name='city' />
                                 </td>
+
                                 <td>
-                                    <input type='text' placeholder='Ulica' value={street} onChange={(e) => setStreet(e.target.value)} name='street'></input>
+                                    <input
+                                        type='text'
+                                        placeholder='Ulica'
+                                        value={street}
+                                        onChange={(e) => setStreet(e.target.value)}
+                                        name='street' />
                                 </td>
+
                                 <td>
-                                    <input type='text' placeholder='Numer' value={apartmentNumber} onChange={(e) => setApNumber(e.target.value)} name='apartmentNumber'></input>
+                                    <input
+                                        type='text'
+                                        placeholder='Numer'
+                                        value={apartmentNumber}
+                                        onChange={(e) => setApNumber(e.target.value)}
+                                        name='apartmentNumber' />
                                 </td>
+
                                 <td>
-                                    <input type='text' placeholder='Kod pocztowy' value={zipcode} onChange={(e) => setZipcode(e.target.value)} name='city'></input>
+                                    <input
+                                        type='text'
+                                        placeholder='Kod pocztowy'
+                                        value={zipcode}
+                                        onChange={(e) => setZipcode(e.target.value)}
+                                        name='city' />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <button className='btn editBtn' onClick={() => updateClient(status._id)}>Zapisz dane klienta</button>
-                <button className='btn editBtn' onClick={() => setUpdate('')}>Powrót</button>
+                <button
+                    className='btn editBtn'
+                    onClick={() => updateClient(client._id)}>
+                    Zapisz dane klienta
+                </button>
+
+                <button
+                    className='btn editBtn'
+                    onClick={() => setUpdate('')}>
+                    Powrót
+                </button>
             </div >
 
         )
     }
 
-    // console.log(status.textarea)
-    // console.log(status.nip)
+    // console.log(client.textarea)
+    // console.log(client.nip)
 
     return (
         <div className='tableWrapper'>
             <button className='btn' onClick={(index) => {
-                setName(status.name)
-                setNip(status.nip)
-                setCity(status.address.city)
-                setStreet(status.address.street)
-                setApNumber(status.address.apartmentNumber)
-                setZipcode(status.address.zipcode)
-                editClick(status._id)
+                setName(client.name)
+                setNip(client.nip)
+                setCity(client.address.city)
+                setStreet(client.address.street)
+                setApNumber(client.address.apartmentNumber)
+                setZipcode(client.address.zipcode)
+                editClick(client._id)
             }}>Edytuj</button>
-            <Link className='btn' to={`/actions/${status._id}`}>Dodaj Akcje</Link>
+            <Link className='btn' to={`/actions/${client._id}`}>Dodaj Akcje</Link>
 
             <table>
                 <thead>
@@ -203,23 +250,43 @@ const SingleCustommer = (i, _id) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><th>Imię i nazwisko</th><td colSpan='3'>{status.name}</td></tr>
-                    <tr><th>NIP</th><td colSpan='3'>{status.nip}</td></tr>
+                    <tr><th>Imię i nazwisko</th><td colSpan='3'>{client.name}</td></tr>
+                    <tr><th>NIP</th><td colSpan='3'>{client.nip}</td></tr>
                     <tr>
                         <th colSpan='4'>Adres</th>
                     </tr>
+
                     <tr>
-                        <th colSpan='1'>Miasto</th>
-                        <th colSpan='2'>Ulica i numer</th>
-                        <th colSpan='1'>Kod pocztowy</th>
-                    </tr>
-                    <tr>
-                        <td colSpan='1'>{status.address.city}</td>
-                        <td colSpan='2'>{status.address.street}, {status.address.apartmentNumber}</td>
-                        <td colSpan='1'>{status.address.zipcode}</td>
+                        <th colSpan='1'>
+                            Miasto
+                        </th>
+
+                        <th colSpan='2'>
+                            Ulica i numer
+                        </th>
+
+                        <th colSpan='1'>
+                            Kod pocztowy
+                        </th>
                     </tr>
 
-                    {status.actions.map((clientsActions, index) => {
+                    <tr>
+                        <td colSpan='1'>
+                            {client.address.city}
+                        </td>
+
+                        <td colSpan='2'>
+                            {client.address.street},
+                            {client.address.apartmentNumber}
+                        </td>
+
+                        <td colSpan='1'>
+                            {client.address.zipcode}
+                        </td>
+                    </tr>
+
+
+                    {client.actions.map((clientsActions, index) => {
 
                         if (actionUpdate === clientsActions._id) {
 
@@ -231,7 +298,7 @@ const SingleCustommer = (i, _id) => {
                                         <input
                                             type='text'
                                             placeholder='Numer telefonu'
-                                            value={status.phone}
+                                            value={client.phone}
                                             onChange={handleChangePhone} name='phone' />
                                     </td>
 
@@ -250,17 +317,27 @@ const SingleCustommer = (i, _id) => {
                                         <textarea
                                             type='text'
                                             placeholder='Wpisz opis'
-                                            value={status.textarea}
+                                            value={client.textarea}
                                             onChange={handleChangeTextarea}
                                             name='textarea' />
                                     </td>
 
                                     <td>
-                                        <button type="submit" className="save" onClick={() => updateAction(clientsActions._id)}>Zapisz</button></td>
+                                        <button
+                                            type="submit"
+                                            className="save"
+                                            onClick={
+                                                (date) => {
+                                                    updateAction(clientsActions._id)
+                                                    setStartDate(date)
+                                                }}>
+                                            Zapisz
+                                        </button>
+                                    </td>
                                 </tr>
                             )
                         }
-                        // console.log(status.actions)
+                        // console.log(client.actions)
                         // console.log(clientsActions._id)
 
 
@@ -283,24 +360,39 @@ const SingleCustommer = (i, _id) => {
                                     <tr>
                                         <td colSpan='1'>{clientsActions.phone}</td>
 
-                                        <td colSpan='1' className='red'>
-                                            <Moment format="DD-MM-YYYY HH:mm">{clientsActions.visitDate}
+                                        <td colSpan='1'
+                                            className='red'>
+                                            <Moment
+                                                format="DD-MM-YYYY HH:mm">{clientsActions.visitDate}
                                             </Moment>
                                         </td>
+
                                         <td colSpan='1' className='green'>
-                                            <Moment format="DD-MM-YYYY HH:mm">{clientsActions.dateAdded}
+                                            <Moment
+                                                format="DD-MM-YYYY HH:mm">{clientsActions.dateAdded}
                                             </Moment>
                                         </td>
+
                                         <td className='deletionRequestTD'>
                                             <label>Jesteś pewien?</label><br />
-                                            <button className='btn deletionRequest bg-green' onClick={() => deleteAction(clientsActions._id)}>Tak</button>
-                                            <button className='btn deletionRequest bg-red' onClick={() => setRemoveAction('')}
-                                            >Nie</button>
+
+                                            <button
+                                                className='btn deletionRequest bg-green'
+                                                onClick={() => deleteAction(clientsActions._id)}>
+                                                Tak</button>
+
+                                            <button
+                                                className='btn deletionRequest bg-red'
+                                                onClick={() => setRemoveAction('')}
+                                            >Nie
+                                            </button>
                                         </td>
                                     </tr>
+
                                     <tr>
                                         <th colSpan='4'>Opis</th>
                                     </tr>
+
                                     <tr>
                                         <td colSpan='4'>{clientsActions.textarea}</td>
                                     </tr>
@@ -308,7 +400,7 @@ const SingleCustommer = (i, _id) => {
                             )
                         };
 
-                        // console.log(status)
+                        // console.log(client)
                         // console.log(actions)
 
 
@@ -327,26 +419,41 @@ const SingleCustommer = (i, _id) => {
                                     <td colSpan='1'>{clientsActions.phone}</td>
 
                                     <td colSpan='1' className='red'>
-                                        <Moment format="DD-MM-YYYY HH:mm">{clientsActions.visitDate}
+                                        <Moment
+                                            format="DD-MM-YYYY HH:mm">{clientsActions.visitDate}
                                         </Moment>
                                     </td>
+
                                     <td colSpan='1' className='green'>
-                                        <Moment format="DD-MM-YYYY HH:mm">{clientsActions.dateAdded}
+                                        <Moment
+                                            format="DD-MM-YYYY HH:mm">{clientsActions.dateAdded}
                                         </Moment>
                                     </td>
+
                                     <td>
-                                        <button className='btn removeAction' onClick={(i) => {
-                                            setActionUpdate(clientsActions._id)
-                                            setPhone(status.phone)
-                                            setTextarea(status.textarea)
-                                        }
-                                        }>Edytuj akcje</button>
-                                        <button className='btn removeAction' onClick={() => questionDelete(clientsActions._id)}>Usuń akcje</button>
+
+                                        <button
+                                            className='btn removeAction'
+                                            onClick={(i) => {
+                                                setActionUpdate(clientsActions._id)
+                                                setPhone(client.phone)
+                                                setTextarea(client.textarea)
+                                            }
+                                            }>Edytuj akcje
+                                        </button>
+
+                                        <button
+                                            className='btn removeAction'
+                                            onClick={() => questionDelete(clientsActions._id)}>
+                                            Usuń akcje
+                                        </button>
                                     </td>
                                 </tr>
+
                                 <tr>
                                     <th colSpan='4'>Opis</th>
                                 </tr>
+
                                 <tr>
                                     <td colSpan='4'>{clientsActions.textarea}</td>
                                 </tr>
@@ -359,4 +466,4 @@ const SingleCustommer = (i, _id) => {
     )
 };
 
-export default SingleCustommer;
+export default SingleClient;

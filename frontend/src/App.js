@@ -3,23 +3,27 @@ import Home from './routes/Home';
 import Login from './routes/Login';
 import SignUp from './routes/SignUp';
 import AddClient from "./routes/AddClient";
-import SingleCustommer from "./routes/SingleCustommer";
+import SingleClient from "./routes/SingleClient";
 import Actions from "./routes/Actions";
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import './routes/style/App.css';
 import { useState } from 'react';
 
 const App = () => {
+  
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
   const ProtectedRoute = ({ children }) => {
+
     const location = useLocation();
+
     if (!user) {
       return <Navigate to='/' replace state={{ from: location }} />;
     }
 
     return children;
   };
+
   const logOut = () => {
     localStorage.clear();
     setInterval()
@@ -52,7 +56,7 @@ const App = () => {
           )}
           {user && (
             <li>
-              <Link className='ul-itm' to='/AddClient'>
+              <Link className='ul-itm' to='/addClient'>
                 Dodaj klienta
               </Link>
             </li>
@@ -83,7 +87,7 @@ const App = () => {
         />
         <Route path='signup' element={<SignUp />} />
         <Route path="addclient" element={<AddClient />} />
-        <Route path="custommer/:id" element={<SingleCustommer />} />
+        <Route path="client/:id" element={<SingleClient />} />
         <Route path="actions/:id" element={<Actions />} />
       </Routes>
     </div>

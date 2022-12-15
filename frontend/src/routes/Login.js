@@ -72,10 +72,27 @@ const Login = (props) => {
             {props.user && <Navigate to='/home' />}
             <form action='#' onSubmit={userSubmit}>
                 <h3>Logowanie</h3>
-                <input type='text' value={email} onChange={stateLogin} name='email' placeholder='Podaj login'></input>
-                <input type='password' value={password} name='password' onChange={stateLogin} placeholder='Podaj hasło'></input>
-                <button className='btn' type='submit' onClick={validateForm}>Zaloguj</button>
+
+                <input 
+                type='text' 
+                value={email} 
+                onChange={stateLogin} 
+                name='email' 
+                placeholder='Podaj login'/>
+
+                <input 
+                type='password' 
+                value={password} 
+                name='password' 
+                onChange={stateLogin} 
+                placeholder='Podaj hasło'/>
+
+                <button 
+                className='btn' 
+                type='submit'
+                 onClick={validateForm}>Zaloguj</button>
             </form>
+            
             <div className='errorsWrapper'>
                 <ul className='errors'>{errors}</ul>
             </div>
