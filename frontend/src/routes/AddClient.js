@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import axios from "axios"
 import "./style/AddClients.css"
-import { Navigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
